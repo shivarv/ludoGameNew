@@ -1,0 +1,91 @@
+:host{
+    text-align: center;
+    height: 100vh;
+    box-sizing: border-box;
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 3em;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 100%;
+    height: 100%;
+}
+
+.background-color-red {
+    background-color: rgba(255, 0 , 0, 1);
+}
+
+.background-color-red--light {
+    background-color: rgba(255, 0 , 0, 0.7);
+}
+
+.background-color-green {
+    background-color: rgba(0, 255 , 0, 1);
+}
+
+.background-color-green--light {
+    background-color: rgba(0, 255 , 0, 0.4);
+}
+
+.background-color-blue {
+    background-color: rgba(0, 0 , 255, 1);
+
+}
+
+.background-color-blue--light {
+    background-color: rgba(0, 0 , 255, 0.4);
+
+}
+
+.background-color-yellow {
+    background-color:  rgba(255,255,0, 1);
+}
+
+.background-color-yellow--light {
+    background-color: rgba(255,255,0, 0.4);
+}
+
+.inner-header {
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 100%;
+    height: 100%;
+    padding: 1rem 0;
+    background-color: grey;
+}
+
+.child-div {
+    display: flex;
+    text-align: center;
+    align-items: stretch;
+    box-sizing: border-box;
+    height: 23vh;
+    width: 30%;
+    align-items: center;
+    justify-items: center;
+}
+
+.child-div-inner {
+    display: flex;
+    margin: 0 auto;
+    left: 50%;
+    box-sizing: border-box;
+    width: 60%;
+    height: 70%;
+}
+
+.div-sidespace {
+    flex: 0 0 30%;
+    height: 3rem;
+    box-sizing: border-box;
+}
