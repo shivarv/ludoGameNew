@@ -21,28 +21,30 @@
                 <img src={ludoIconImgUrl} class="img-icon">
             </div>
         </div>
-        <div class="inner-container">
+
+        <div class="start-row-container">
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorRed}></c-ludo-player-start-box>
             </div>
-            <div class="child-div background-color-green">
+            <div class="middle-vertical-box">
+                <c-ludo-vertical-path></c-ludo-vertical-path>
             </div>
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorGreen}></c-ludo-player-start-box>
             </div>
         </div>
 
-        <div class="inner-container">
-            <div class="child-div background-color-red"></div>
-            <div class="child-div background-color-green"></div>
-            <div class="child-div background-color-yellow"></div>
+        <div class="middle-row-container">
+            <div class="start-box-parent"></div>
+            <div class="middle-vertical-box"></div>
+            <div class="start-box-parent"></div>
         </div>
 
-        <div class="inner-container">
+        <div class="start-row-container">
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorBlue}></c-ludo-player-start-box>
             </div>
-            <div class="child-div background-color-blue"></div>
+            <div class="middle-vertical-box"></div>
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorYellow}></c-ludo-player-start-box>
             </div>
