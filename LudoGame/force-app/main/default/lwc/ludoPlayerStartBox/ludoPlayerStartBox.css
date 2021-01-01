@@ -4,7 +4,7 @@
 
 }
 
-.child-div {
+.main-div {
     display: flex;
     text-align: center;
     align-items: stretch;
@@ -15,7 +15,7 @@
     justify-items: center;
 }
 
-.child-div-inner {
+.child-div {
     display: flex;
     position: relative;
     transform: translateX(-84%);
@@ -51,7 +51,7 @@
 }
 
 .background-color-green--dark {
-    background-color: rgba(21, 69y, 21, 1);
+    background-color: rgba(21, 69, 21, 1);
 }
 
 .background-color-blue {
@@ -88,22 +88,22 @@
     height: 20%;
 }
 
-.child-top-left {
+.top-left {
     top: 20%;
     left: 15%;
 }
 
-.child-top-right {
+.top-right {
     top: 20%;
     right: 15%;
 }
 
-.child-bottom-left {
+.bottom-left {
     bottom: 20%;
     left: 15%;
 }
 
-.child-bottom-right {
+.bottom-right {
     bottom: 20%;
     right: 15%;
 }

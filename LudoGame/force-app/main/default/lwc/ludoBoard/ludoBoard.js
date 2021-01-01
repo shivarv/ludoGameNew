@@ -13,4 +13,9 @@ export default class LudoBoard extends LightningElement {
     user3ImgUrl = LUDO_RESOURCE + '/ludo/images/user3.png';
     user4ImgUrl = LUDO_RESOURCE + '/ludo/images/user4.png';
 
+    colorRed = 'red';
+    colorGreen = 'green';
+    colorBlue = 'blue';
+    colorYellow = 'yellow';
+
 }

@@ -7,12 +7,16 @@ const CSS_INNER_CIRCLE_DIV_CLASSES = 'child-div-inner-circle child-top-left';
 const COLOR_VARIANT = {'dark': 'dark', 'light': 'light'};
 const BACKGROUND_TEXT = 'background';
 const COLOR_TEXT = '-color-';
-
+const CSS_POSITION_CLASSES = {'top-left': 'top-left', 'top-right': 'top-right',
+                                'bottom-left': 'bottom-left', 'bottom-right': 'bottom-right'};
 export default class LudoPlayerStartBox extends LightningElement {
     _color;
     mainCssClasses;
     childCssClasses;
-    innerCircleCssClasses;
+    innerCircleTopLeftCssClasses;
+    innerCircleTopRightCssClasses;
+    innerCircleBottomLeftCssClasses;
+    innerCircleBottomRightCssClasses;
 
     @api
     get color() {
@@ -45,7 +49,13 @@ export default class LudoPlayerStartBox extends LightningElement {
 
     setInnerCircleCssClasses() {
         console.log(' in setInnerCircleCssClasses method');
-        this.childCssClasses = CSS_INNER_CIRCLE_DIV_CLASSES + ' '+ this.getBackgroundColorHelper(this._color, COLOR_VARIANT.dark);
+        let preCssClasses = CSS_INNER_CIRCLE_DIV_CLASSES + ' '+ this.getBackgroundColorHelper(this._color, COLOR_VARIANT.dark);
+        //cant access CSS_POSITION_CLASSES.top-left, dono why
+        this.innerCircleTopLeftCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['top-left'];
+        this.innerCircleTopRightCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['top-right'];
+        this.innerCircleBottomLeftCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['bottom-left'];
+        this.innerCircleBottomRightCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['bottom-right'];
+        
     }
 
 
