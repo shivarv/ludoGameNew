@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 01-01-2021
+  @last modified on  : 01-02-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -12,7 +12,7 @@
     <div class="container">
         <div class="inner-header">
             <div class="div-sidespace">
-                <img src={user1ImgUrl} class="img-icon">
+                <img src={user1ImgUrl} class="img-icon" onclick={testPlayerValues}>
                 <img src={ludoIconImgUrl} class="img-icon">
 
             </div>
@@ -27,7 +27,7 @@
                 <c-ludo-player-start-box color={colorRed}></c-ludo-player-start-box>
             </div>
             <div class="middle-vertical-box">
-                <c-ludo-vertical-path></c-ludo-vertical-path>
+                <c-ludo-vertical-path path-type={verticalTopPathType} array-data={verticalTopArray}></c-ludo-vertical-path>
             </div>
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorGreen}></c-ludo-player-start-box>
@@ -35,16 +35,24 @@
         </div>
 
         <div class="middle-row-container">
-            <div class="start-box-parent"></div>
-            <div class="middle-vertical-box"></div>
-            <div class="start-box-parent"></div>
+            <div class="start-box-parent">
+                <c-ludo-vertical-path path-type={horizontalLeftPathType} array-data={horizontalLeftArray}></c-ludo-vertical-path>
+            </div>
+            <div class="middle-end-box">
+                <c-ludo-player-end-box></c-ludo-player-end-box>
+            </div>
+            <div class="start-box-parent">
+                <c-ludo-vertical-path path-type={horizontalRightPathType} array-data={horizontalRightArray}></c-ludo-vertical-path>
+            </div>
         </div>
 
         <div class="start-row-container">
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorBlue}></c-ludo-player-start-box>
             </div>
-            <div class="middle-vertical-box"></div>
+            <div class="middle-vertical-box">
+                <c-ludo-vertical-path path-type={verticalBottomPathType} array-data={verticalBottomArray}></c-ludo-vertical-path>
+            </div>
             <div class="start-box-parent">
                 <c-ludo-player-start-box color={colorYellow}></c-ludo-player-start-box>
             </div>

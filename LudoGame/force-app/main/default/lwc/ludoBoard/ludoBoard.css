@@ -1,6 +1,7 @@
 :host{
     text-align: center;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -41,10 +42,17 @@
 }
 
 .middle-vertical-box {
-    display: flex;
     box-sizing: border-box;
     width: 30%;
     height: 100%;
+}
+
+.middle-end-box {
+    box-sizing: border-box;
+    width: 30%;
+    height: 100%;
+    border-top: .5px solid black;
+    border-right: .5px solid black;
 }
 
 .inner-header {

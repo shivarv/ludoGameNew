@@ -2,23 +2,30 @@
     width: 100%;
 }
 
-.main-div {
-    display: flex;
-    text-align: center;
-    align-items: stretch;
+.main-div-vertical {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    align-items: center;
-    justify-items: center;
-    flex-direction: row;
+    border: none;
+    outline: none;
+}
+
+.main-div-horizontal {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
 }
 
 .child-div {
-    display: flex;
     box-sizing: border-box;
-    margin: 0 auto;
-    height: 16.33%;
-    width: 33.3333%;
-    outline: 1px solid yellow;  
+    border-top: .5px solid black;
+    border-right: .5px solid black;
 }
