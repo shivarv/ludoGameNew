@@ -1,5 +1,7 @@
 import { api, LightningElement } from 'lwc';
-
+import {
+    fireComponentEvent
+} from 'c/ludoUtilityServices';
 const PATH_TYPES = {
                         'vertical-top' : 'vertical-top', 
                         'vertical-bottom' : 'vertical-bottom', 
@@ -22,7 +24,8 @@ export default class LudoVerticalPath extends LightningElement {
     }
 
     set arrayData(value) {
-        console.log('in set arrayData method');
+        console.log('in set arrayData method '+this.pathType);
+        console.log(JSON.stringify(value));
         this._arrayData = value;
     }
 
@@ -69,5 +72,13 @@ export default class LudoVerticalPath extends LightningElement {
 
     elementClicked(event) {
         console.log('in elementClicked method' + event.target.dataset.key);
+        this.fireSampleEvent(event.target.dataset.key);
+    }
+
+    
+    fireSampleEvent(inputVal) {
+        console.log('in fireSampleEvent');
+        let inputData = {data: inputVal, firePlatformEvent: true, eventType: 'testevent'};
+        fireComponentEvent(JSON.stringify(inputData), this, true, true);
     }
 }

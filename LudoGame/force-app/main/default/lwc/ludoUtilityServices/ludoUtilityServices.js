@@ -1,5 +1,6 @@
 import {
-    PLAYER_TYPES, PLAYER_CALC_UNIQUE_VALUE, PLAYER_CALC_HOME_ARRAY_INDEXES,
+    GENERICCOMPONENTEVENT, HOME_NUMBER_CONST,
+    PLAYER_TYPES, PLAYER_CALC_UNIQUE_VALUE, PLAYER_HOME_ARRAY_INDEXES,
     CALC_EQUALIZER_UNIQUE_VALUE
 } from 'c/ludoUtilityConstant';
 
@@ -23,16 +24,37 @@ const convertPositionFromPlayer1Perspective = (player1PositionValue, currentPlay
     let calVal = CALC_EQUALIZER_UNIQUE_VALUE - PLAYER_CALC_UNIQUE_VALUE[currentPlayerType] + player1PositionValue;
     if(currentPlayerType === PLAYER_TYPES['player1']) {
         currentPlayerPositionValue = player1PositionValue;
-    } else if(currentPlayerType === PLAYER_TYPES['player2']) {
-        currentPlayerPositionValue =  calVal % CALC_EQUALIZER_UNIQUE_VALUE;
-    } else if(currentPlayerType === PLAYER_TYPES['player3']) {
-        currentPlayerPositionValue =  calVal % CALC_EQUALIZER_UNIQUE_VALUE;
-    } else if(currentPlayerType === PLAYER_TYPES['player4']) {
+    } else {
         currentPlayerPositionValue =  calVal % CALC_EQUALIZER_UNIQUE_VALUE;
     }
     return currentPlayerPositionValue;
 }
 
+//Other's perspective to player1 perspective
+const convertPositionToPlayer1Perspective = (currentPlayerPositionValue, currentPlayerType, 
+                                                currentPlayerArray
+                                            ) => {
+    console.log(' in convertPositionFromPlayer1Perspective method')
+
+    let player1PositionValue;
+    let calVal = PLAYER_CALC_UNIQUE_VALUE[currentPlayerType] + currentPlayerPositionValue;
+    
+    //undefined for player1
+    let homeRunArray = PLAYER_HOME_ARRAY_INDEXES[currentPlayerType];
+
+    if(currentPlayerType === PLAYER_TYPES['player1']) {
+        player1PositionValue = currentPlayerPositionValue;
+    } else {
+        if(currentPlayerPositionValue >= CALC_EQUALIZER_UNIQUE_VALUE) {
+            player1PositionValue =  currentPlayerPositionValue - CALC_EQUALIZER_UNIQUE_VALUE < 6 ?
+            currentPlayerArray[homeRunArray[currentPlayerPositionValue - CALC_EQUALIZER_UNIQUE_VALUE]] : HOME_NUMBER_CONST;
+        } else {
+            player1PositionValue =  calVal % CALC_EQUALIZER_UNIQUE_VALUE;
+        }
+    }
+    return player1PositionValue;
+}
+
 export {
-    fireComponentEvent, convertPositionFromPlayer1Perspective
+    fireComponentEvent, convertPositionFromPlayer1Perspective, convertPositionToPlayer1Perspective
 };

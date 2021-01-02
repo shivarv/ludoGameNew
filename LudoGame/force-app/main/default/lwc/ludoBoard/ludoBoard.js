@@ -1,14 +1,17 @@
 import { LightningElement, track, api } from 'lwc';
 import {
-    PLAYER_TYPES, PLAYER_CALC_UNIQUE_VALUE, PLAYER_CALC_HOME_ARRAY_INDEXES,
+    PLAYER_TYPES, PLAYER_CALC_UNIQUE_VALUE, PLAYER_HOME_ARRAY_INDEXES,
     CALC_EQUALIZER_UNIQUE_VALUE, OTHER_PLAYER_HOME_RUN_FROM_PLAYER1_PERSPECTIVE
 } from 'c/ludoUtilityConstant';
 import {
-    convertPositionFromPlayer1Perspective
+    convertPositionFromPlayer1Perspective, convertPositionToPlayer1Perspective
 } from 'c/ludoUtilityServices';
 import LUDO_RESOURCE from '@salesforce/resourceUrl/ludo';
 
 export default class LudoBoard extends LightningElement {
+
+    testPlayerChange = 'player2';
+    
    
     _playerType;
     _playerUniqueValue;
@@ -70,29 +73,29 @@ export default class LudoBoard extends LightningElement {
 
     }
 
-    getPlayerStartBoxArray() {
-        console.log('in getPlayerStartBoxArray method');
+    getPlayerHomeBoxArray(playerTypeValue) {
+        console.log('in getPlayerHomeBoxArray method');
         let arr;
-        if(this._playerType === PLAYER_TYPES['player1']) {
+        if(playerTypeValue === PLAYER_TYPES['player1']) {
             arr = this.verticalBottomArray;
-        } else if(this._playerType === PLAYER_TYPES['player2']) {
+        } else if(playerTypeValue === PLAYER_TYPES['player2']) {
             arr = this.horizontalLeftArray;
-        } else if(this._playerType === PLAYER_TYPES['player3']) {
+        } else if(playerTypeValue === PLAYER_TYPES['player3']) {
             arr = this.verticalTopArray;
-        } else if(this._playerType === PLAYER_TYPES['player4']) {
+        } else if(playerTypeValue === PLAYER_TYPES['player4']) {
             arr = this.horizontalRightArray;
         }
         return arr;
     }
-    
+
     // this will only set the home run for the current player
     assignHomeValuesForArray() {
         console.log('in assignHomeValuesForArray method');
         // get the actual home box array
-        let arr = this.getPlayerStartBoxArray();
+        let arr = this.getPlayerHomeBoxArray(this._playerType);
         let initialVal = 0;
         //this gives the array indexes of home number
-        let homeArrayIndexes = PLAYER_CALC_HOME_ARRAY_INDEXES[this._playerType];
+        let homeArrayIndexes = PLAYER_HOME_ARRAY_INDEXES[this._playerType];
         console.log(arr);
         console.log(homeArrayIndexes);
         //basically loop through the home box for the home indexes and assign equaliser values
@@ -140,8 +143,8 @@ export default class LudoBoard extends LightningElement {
 
     configureDefaultArrayValues() {
         console.log('in configureDefaultArrayValues method ');
-        //fill for player1 verticalBottomArray fully, else it creates issue
-        this.verticalBottomArray = [6, 57, 46, 5, 56, 47, 4, 55, 48, 3, 54, 49, 2, 53, 50, 1, 52, 51];
+        //fill for player1 verticalBottomArray or player1 home till 52, else it creates issue on that location
+        this.verticalBottomArray = [6, 0, 46, 5, 0, 47, 4, 0, 48, 3, 0, 49, 2, 0, 50, 1, 52, 51];
         this.verticalTopArray = [25, 26, 27, 24, 0, 28, 23, 0, 29, 22, 0, 30, 21, 0, 31, 20, 0, 32];
         this.horizontalLeftArray = [14, 15, 16, 17, 18, 19, 13, 0, 0, 0, 0, 0, 12, 11, 10, 9, 8, 7];
         this.horizontalRightArray = [33, 34, 35, 36, 37, 38, 0, 0, 0, 0, 0, 39, 45, 44, 43, 42, 41, 40];
@@ -171,6 +174,11 @@ export default class LudoBoard extends LightningElement {
 
     testPlayerValues(event) {
         console.log('in testPlayerValues method ');
+        //fill for player1 verticalBottomArray fully, else it creates issue
+        this.verticalBottomArray = [];
+        this.verticalTopArray = [];
+        this.horizontalLeftArray = [];
+        this.horizontalRightArray = [];
         if(this._playerType === 'player1') {
             this.playerType = 'player2';
         } else if(this._playerType === 'player2') {
@@ -182,5 +190,30 @@ export default class LudoBoard extends LightningElement {
         }
     }
 
+    testEventHandler(event) {
+        console.log(' in testEventHandler method ... current test player perspective is '+this.testPlayerChange);
+        let data = JSON.parse(event.detail);
+        let numbVal;
+        if(!data) {
+            return;
+        }
+        console.log('data is '+ data.data);
+        numbVal = parseInt(data.data);
+        console.log('  '+ this.getPlayerHomeBoxArray(this.testPlayerChange));
+        let output = convertPositionToPlayer1Perspective(numbVal, this.testPlayerChange,
+             this.getPlayerHomeBoxArray(this.testPlayerChange));
+        console.log('output is '+ output);
+    }
+
+    testChangeTestPlayer() {
+        console.log('in testChangeTestPlayer method ');
+        if(this.testPlayerChange === 'player2') {
+            this.testPlayerChange = 'player3';
+        } else if(this.testPlayerChange === 'player3') {
+            this.testPlayerChange = 'player4';
+        } else if(this.testPlayerChange === 'player4') {
+            this.testPlayerChange = 'player2';
+        } 
+    }
 
 }
