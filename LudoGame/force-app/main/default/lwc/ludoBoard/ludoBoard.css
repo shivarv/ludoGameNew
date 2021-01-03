@@ -5,12 +5,6 @@
     box-sizing: border-box;
 }
 
-.img-icon {
-    height: 50%;
-    width: 40%;
-    object-fit: cover;
-}
-
 .container {
     display: flex;
     justify-content: center;

@@ -1,5 +1,10 @@
 import { api, LightningElement } from 'lwc';
-
+import {
+    EVENTTYPESMAP
+} from 'c/ludoUtilityConstant';
+import {
+    fireComponentEventHelper, generateCoinUniqueId
+} from 'c/ludoUtilityServices';
 
 const CSS_DEFAULT_MAIN_DIV_CLASSES = 'main-div';
 const CSS_DEFAULT_CHILD_DIV_CLASSES = 'child-div';
@@ -9,6 +14,8 @@ const BACKGROUND_TEXT = 'background';
 const COLOR_TEXT = '-color-';
 const CSS_POSITION_CLASSES = {'top-left': 'top-left', 'top-right': 'top-right',
                                 'bottom-left': 'bottom-left', 'bottom-right': 'bottom-right'};
+const MAXPOINTINBOX = 4;
+const MINPOINTINBOX = 0;
 export default class LudoPlayerStartBox extends LightningElement {
     _color;
     mainCssClasses;
@@ -17,6 +24,28 @@ export default class LudoPlayerStartBox extends LightningElement {
     innerCircleTopRightCssClasses;
     innerCircleBottomLeftCssClasses;
     innerCircleBottomRightCssClasses;
+    canUserClick = false;
+    divGroupName = 'circleDiv';
+    countPointInBox = 4;
+
+    @api componentPlayerType;
+
+    get canShow4() {
+        return this.countPointInBox > 3;
+    }
+
+    get canShow3() {
+        return this.countPointInBox > 2;
+    }
+
+    get canShow2() {
+        return this.countPointInBox > 1;
+    }
+
+    get canShow1() {
+        return this.countPointInBox > 0;
+    }
+    
 
     @api
     get color() {
@@ -54,17 +83,73 @@ export default class LudoPlayerStartBox extends LightningElement {
         this.innerCircleTopLeftCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['top-left'];
         this.innerCircleTopRightCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['top-right'];
         this.innerCircleBottomLeftCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['bottom-left'];
-        this.innerCircleBottomRightCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['bottom-right'];
-        
+        this.innerCircleBottomRightCssClasses = preCssClasses + ' '+CSS_POSITION_CLASSES['bottom-right'];   
     }
 
 
     getBackgroundColorHelper(color, variant) {
+        console.log(' in getBackgroundColorHelper method');
         let fullCssString = BACKGROUND_TEXT+COLOR_TEXT+color;
         if(variant) {
             return fullCssString+'--'+variant;
         }
         return fullCssString;
+    }
+
+    @api
+    decrementCountIndex() {
+        console.log(' in decrementCountIndex method');
+
+        if(this.countPointInBox === MINPOINTINBOX) {
+            return;
+        }
+        this.countPointInBox--;
+    }
+
+    @api
+    incrementCountIndex() {
+        console.log(' in incrementCountIndex method');
+        if(this.countPointInBox === MAXPOINTINBOX) {
+            return;
+        }
+        this.countPointInBox++;
+    }
+
+    @api
+    attachClickEventListener() {
+        console.log(' in attachClickEventListener ');
+        this.canUserClick = true;
+        this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
+            element.addEventListener('click', this.handleClick); //Contains HTML elements
+        });
+    }
+
+    handleClick() {
+        console.log('in handle click method');
+        if(!this.canUserClick) {
+            return;
+        }
+        this.canUserClick = false;
+        this.decrementCountIndex();
+        let coinIdInput = generateCoinUniqueId(this.countPointInBox, this.playerType);
+        let dataObject = {positionFrom: -1, positionTo: 1,
+                            coinId: coinIdInput, isHome: false};
+        this.fireComponentEvent(dataObject);
+        this.removeClickEventListener();
+    }
+
+    fireComponentEvent(dataObject) {
+        console.log('in fireComponentEvent method ');
+        // {data: dataNum, firePlatformEvent: true, eventType: COMPONENTEVENTTYPESMAP.positionchangeevent}
+        let inputData = {data: dataObject, firePlatformEvent: true, eventType: EVENTTYPESMAP.COINCLICKEDEVENT};
+        fireComponentEventHelper(JSON.stringify(inputData), this, false, false);
+    }
+
+    removeClickEventListener() {
+        console.log(' in removeClickEventListener method');
+        this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
+            element.removeEventListener('click', this.handleClick); //Contains HTML elements
+        });
     }
 
 }

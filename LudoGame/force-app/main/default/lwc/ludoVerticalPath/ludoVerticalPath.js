@@ -1,6 +1,6 @@
 import { api, LightningElement } from 'lwc';
 import {
-    fireComponentEvent
+    fireComponentEventHelper
 } from 'c/ludoUtilityServices';
 const PATH_TYPES = {
                         'vertical-top' : 'vertical-top', 
@@ -75,10 +75,39 @@ export default class LudoVerticalPath extends LightningElement {
         this.fireSampleEvent(event.target.dataset.key);
     }
 
+
+
+    @api
+    attachClickEventListener() {
+        console.log(' in attachClickEventListener ');
+        this.canUserClick = true;
+        this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
+            element.addEventListener('click', this.handleClick); //Contains HTML elements
+        });
+    }
+
+    handleClick() {
+        console.log('in handle click method');
+        
+    }
+
+    fireComponentEvent(dataObject) {
+        console.log('in fireComponentEvent method ');
+        // {data: dataNum, firePlatformEvent: true, eventType: COMPONENTEVENTTYPESMAP.positionchangeevent}
+        let inputData = {data: dataObject, firePlatformEvent: true, eventType: EVENTTYPESMAP.COINCLICKEDEVENT};
+        fireComponentEventHelper(JSON.stringify(inputData), this, false, false);
+    }
+
+    removeClickEventListener() {
+        console.log(' in removeClickEventListener method');
+        this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
+            element.removeEventListener('click', this.handleClick); //Contains HTML elements
+        });
+    }
     
     fireSampleEvent(inputVal) {
         console.log('in fireSampleEvent');
         let inputData = {data: inputVal, firePlatformEvent: true, eventType: 'testevent'};
-        fireComponentEvent(JSON.stringify(inputData), this, true, true);
+        fireComponentEventHelper(JSON.stringify(inputData), this, true, true);
     }
 }

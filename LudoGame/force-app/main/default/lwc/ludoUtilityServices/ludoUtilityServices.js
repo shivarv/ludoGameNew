@@ -4,11 +4,19 @@ import {
     CALC_EQUALIZER_UNIQUE_VALUE
 } from 'c/ludoUtilityConstant';
 
+
+const generateCoinUniqueId = function(coinIndex, playerType) {
+    console.log('in generateCoinUniqueId method coinIndex '+coinIndex + ' playerType '+playerType);
+    let coinUniqueId = ('coin' + (coinIndex + 1) + '' + playerType);
+    console.log(' unique id is '+coinUniqueId);
+    return coinUniqueId;
+ }
+
 //params must be object
 // sample component event 
 // {data: dataNum, firePlatformEvent: true, eventType: COMPONENTEVENTTYPESMAP.positionchangeevent}
-const fireComponentEvent = ( params, reference, isBubbles, isComposed) => {
-    console.log('in fire compponent event '+GENERICCOMPONENTEVENT);
+const fireComponentEventHelper = (params, reference, isBubbles, isComposed) => {
+    console.log('in fire compponent event helper'+GENERICCOMPONENTEVENT);
     const eventToFire = new CustomEvent(GENERICCOMPONENTEVENT, { detail: params,
                                             bubbles: isBubbles, composed: isComposed
     
@@ -16,6 +24,11 @@ const fireComponentEvent = ( params, reference, isBubbles, isComposed) => {
     // Dispatches the event.
     reference.dispatchEvent(eventToFire);
 };
+
+const generateRandomNumberHelper = () => {
+    let randNum = Math.floor(Math.random() * 5) + 1;
+    return randNum;
+}
 
 const convertPositionFromPlayer1Perspective = (player1PositionValue, currentPlayerType) => {
     console.log(' in convertPositionFromPlayer1Perspective method')
@@ -56,5 +69,6 @@ const convertPositionToPlayer1Perspective = (currentPlayerPositionValue, current
 }
 
 export {
-    fireComponentEvent, convertPositionFromPlayer1Perspective, convertPositionToPlayer1Perspective
+    fireComponentEventHelper, convertPositionFromPlayer1Perspective, convertPositionToPlayer1Perspective,
+    generateRandomNumberHelper, generateCoinUniqueId
 };

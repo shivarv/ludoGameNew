@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 01-01-2021
+  @last modified on  : 01-02-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -11,10 +11,18 @@
 <template>
     <div class={mainCssClasses}>
         <div class={childCssClasses}>
-                <div class={innerCircleTopLeftCssClasses}></div>
-                <div class={innerCircleTopRightCssClasses}></div>
-                <div class={innerCircleBottomLeftCssClasses}></div>
-                <div class={innerCircleBottomRightCssClasses}></div>
+            <template if:true={canShow4}>
+                <div class={innerCircleTopLeftCssClasses} data-group={divGroupName}></div>
+            </template>
+            <template if:true={canShow3}>
+                <div class={innerCircleTopRightCssClasses} data-group={divGroupName}></div>
+            </template>
+            <template if:true={canShow2}>
+                <div class={innerCircleBottomLeftCssClasses} data-group={divGroupName}></div>
+            </template>
+            <template if:true={canShow1}>
+                <div class={innerCircleBottomRightCssClasses} data-group={divGroupName}></div>
+            </template>
         </div>
     </div>
 </template>
