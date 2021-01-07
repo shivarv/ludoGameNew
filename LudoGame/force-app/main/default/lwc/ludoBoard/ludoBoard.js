@@ -52,6 +52,9 @@ export default class LudoBoard extends LightningElement {
     horizontalLeftArray;
     horizontalRightArray;
 
+    boardCoinPositionList = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
+
+
     @api
     get playerType() {
         console.log('in get playerType method');

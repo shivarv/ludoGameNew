@@ -10,12 +10,25 @@ const PATH_TYPES = {
                     };
 const MAIN_DIV_TEXT = 'main-div';
 export default class LudoVerticalPath extends LightningElement {
+    index = 0;
 
     _pathType;
     mainDivClasses;
     _color;
+
+    _boardCoinPositionList;
     _arrayData = [];
 
+    @api
+    get boardCoinPositionList() {
+        console.log('in get boardCoinPositionList method ');
+        return this._boardCoinPositionList;
+    }
+
+    set boardCoinPositionList(value) {
+        console.log('in set boardCoinPositionList method '+ JSON.stringify(value));
+        this._boardCoinPositionList = value;
+    }
 
     @api
     get arrayData() {
@@ -24,12 +37,58 @@ export default class LudoVerticalPath extends LightningElement {
     }
 
     set arrayData(value) {
-        console.log('in set arrayData method '+this.pathType);
-        console.log(JSON.stringify(value));
-        this._arrayData = value;
+        console.log('in set arrayData method '+JSON.stringify(value));
+        console.log(this._pathType + ' '+ JSON.stringify(this._boardCoinPositionList));
+        this.index++;
+        if(this.index === 6) {
+            console.log('index error more than 6');
+            console.log('boardlist is '+JSON.stringify(this._boardCoinPositionList));
+            console.log('pathType '+ this._pathType);
+            console.log(' this._arrayData '+ JSON.stringify(this._arrayData));
+        }
+        if(!this._boardCoinPositionList) {
+            this.arrayData = value;
+            return;
+        }
+        if(this.pathType === 'vertical-bottom') {
+            this._arrayData = this.convertArrayWithPostion(value);
+        } else {
+            this._arrayData = this.sampleTestArrayWithPostion(value);
+        }
     }
 
+    sampleTestArrayWithPostion(arr) {
+        console.log('in sampleTestArrayWithPostion method');
+        let finalArrayData = [];
+        for(let i in arr) {
+            finalArrayData.push({value: arr[i], coinList: []});
+        }
+        return finalArrayData;
+    }
 
+    convertArrayWithPostion(arr) {
+        console.log('in convertArrayWithPostion method');
+        let finalArrayData = [];
+        let thisBoardCoinPositionList = this.boardCoinPositionList;
+        console.log('arr value is '+JSON.stringify(arr));
+        console.log('thisBoardCoinPositionList value is '+JSON.stringify(thisBoardCoinPositionList));
+        for(let i in arr) {
+            finalArrayData.push({value: arr[i], coinList: []});
+        }
+
+        // boardCoinPositionList = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
+        for(let j in thisBoardCoinPositionList) {
+            let foundValue = arr.find((ele) => {
+                    return  ele.value === thisBoardCoinPositionList[j].pos;
+                });
+            if(foundValue) {
+                for(let indCoinId in thisBoardCoinPositionList[j].coinIds) {
+                    foundValue.coinList.push(thisBoardCoinPositionList[j].coinIds[indCoinId]);
+                }
+            }
+        }
+        return finalArrayData;
+    }
 
     @api
     get pathType() {

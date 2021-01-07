@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 01-02-2021
+  @last modified on  : 01-07-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -12,8 +12,15 @@
     <div class={mainDivClasses}>
         <template if:true={_arrayData}>
             <template for:each={_arrayData} for:item="item">
-                <div class="child-div" key={item} data-key={item} onclick={elementClicked}>
-                    {item}
+                <div class="child-div" key={item.value} data-key={item.value} onclick={elementClicked}>
+                    {item.value}
+                    <template if:true={item.coinList}> 
+                        <template for:each={item.coinList} for:item="coinItem">
+                            <div class="inner-coin-div" key={coinItem}>
+
+                            </div>
+                        </template>
+                    </template>
                 </div>
             </template>
         </template>

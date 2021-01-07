@@ -3,7 +3,9 @@
     height: 100%;
 }
 .img-icon {
-    height: 50%;
+    height: 100%;
     width: 40%;
     object-fit: cover;
+    border-radius: 45%;
+    padding-right: 2rem;
 }
