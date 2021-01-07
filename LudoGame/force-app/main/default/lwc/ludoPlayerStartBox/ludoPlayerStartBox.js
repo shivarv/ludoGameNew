@@ -45,6 +45,7 @@ export default class LudoPlayerStartBox extends LightningElement {
     get canShow1() {
         return this.countPointInBox > 0;
     }
+
     
 
     @api
@@ -119,35 +120,37 @@ export default class LudoPlayerStartBox extends LightningElement {
     attachClickEventListener() {
         console.log(' in attachClickEventListener ');
         this.canUserClick = true;
-        this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
-            element.addEventListener('click', this.handleClick); //Contains HTML elements
+        let that = this; // need since it is an arrow method
+        this.template.querySelectorAll(`[data-group="${this.divGroupName}"]`).forEach(element => {
+            //since handleClick is inside the => function, i use bind
+            element.addEventListener('click', that.handleClick.bind(that)); //Contains HTML elements
         });
     }
 
-    handleClick() {
+    handleClick(event) {
         console.log('in handle click method');
         if(!this.canUserClick) {
             return;
         }
         this.canUserClick = false;
         this.decrementCountIndex();
-        let coinIdInput = generateCoinUniqueId(this.countPointInBox, this.playerType);
+        let coinIdInput = generateCoinUniqueId(this.countPointInBox, this.componentPlayerType);
         let dataObject = {positionFrom: -1, positionTo: 1,
                             coinId: coinIdInput, isHome: false};
-        this.fireComponentEvent(dataObject);
+        this.fireComponentEvent(dataObject, EVENTTYPESMAP.COINCLICKEDEVENT);
         this.removeClickEventListener();
     }
 
-    fireComponentEvent(dataObject) {
+    fireComponentEvent(dataObject, eventType) {
         console.log('in fireComponentEvent method ');
         // {data: dataNum, firePlatformEvent: true, eventType: COMPONENTEVENTTYPESMAP.positionchangeevent}
-        let inputData = {data: dataObject, firePlatformEvent: true, eventType: EVENTTYPESMAP.COINCLICKEDEVENT};
+        let inputData = {data: dataObject, firePlatformEvent: true, eventType: eventType};
         fireComponentEventHelper(JSON.stringify(inputData), this, false, false);
     }
 
     removeClickEventListener() {
         console.log(' in removeClickEventListener method');
-        this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
+        this.template.querySelectorAll(`[data-group="${this.divGroupName}"]`).forEach(element => {
             element.removeEventListener('click', this.handleClick); //Contains HTML elements
         });
     }

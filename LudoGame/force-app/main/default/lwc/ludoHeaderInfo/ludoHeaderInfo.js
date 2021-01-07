@@ -34,14 +34,20 @@ export default class LudoHeaderInfo extends LightningElement {
         console.log('in diceRollAction method');
         let rolledNum = generateRandomNumberHelper();
         rolledNum = 1; //for test
-        this.fireComponentEvent(rolledNum);
+        this.fireComponentEvent(rolledNum, EVENTTYPESMAP.RANDOMNUMBEREVENT);
     }
 
     // {data: dataNum, firePlatformEvent: true, eventType: COMPONENTEVENTTYPESMAP.positionchangeevent}
-    fireComponentEvent(data) {
-        console.log('in fireComponent Event');
-        let inputData = {data: data, firePlatformEvent: true, eventType: EVENTTYPESMAP.RANDOMNUMBEREVENT};
+    fireComponentEvent(data, eventType) {
+        console.log('in fireComponent Event method');
+        let inputData = {data: data, firePlatformEvent: true, eventType: eventType};
         fireComponentEventHelper(JSON.stringify(inputData), this, true, true);
+    }
+
+    testChangePerspective(event) {
+        console.log('in testchange perspective method ');
+        this.fireComponentEvent(1, 'testPerspective');
+
     }
 
 }

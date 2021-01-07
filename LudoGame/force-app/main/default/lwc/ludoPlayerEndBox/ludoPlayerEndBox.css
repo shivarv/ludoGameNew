@@ -2,3 +2,34 @@
     width: 100%;
     height: 100%;
 }
+
+.container {
+ height: 100%;
+ width: 100%;
+ overflow: hidden;
+}
+svg {
+ height: 100%;
+ width: 100%;
+}
+polygon {
+    stroke: black;
+    stroke-linejoin: round;
+    stroke-width: .2px;
+}
+
+.player1-color{
+    fill: blue;
+}
+
+.player2-color{
+    fill: red;
+}
+
+.player3-color{
+    fill: green;
+}
+
+.player4-color{
+    fill: yellow;
+}

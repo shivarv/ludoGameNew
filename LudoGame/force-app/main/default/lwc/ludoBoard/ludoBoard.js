@@ -6,6 +6,10 @@ import {
     COINOBJECTLIST
 } from 'c/ludoUtilityConstant';
 import {
+    getCurrentPlayerCoins, getPlayerNonStartedCoins, getPlayerStartedAndNonEndedCoins
+} from 'c/ludoUtilityLogics';
+
+import {
     convertPositionFromPlayer1Perspective, convertPositionToPlayer1Perspective,
     generateRandomNumberHelper, fireComponentEventHelper
 } from 'c/ludoUtilityServices';
@@ -70,6 +74,10 @@ export default class LudoBoard extends LightningElement {
         //need to pass data , instead of data.data becz data.data can be null
         try {
             switch(data.eventType) {
+                //for testing
+                case 'testPerspective':
+                    this.testEventHandler(event);
+                    break;
                 case EVENTTYPESMAP.PLAYERJOINEVENT:
                     console.log('Game PLAYEJOINEVENT event type '+data.data);
                     this.handlePlayerJoinEvent(data);
@@ -166,9 +174,9 @@ export default class LudoBoard extends LightningElement {
         let isMoveAllowed = false;
         let isAnyAtStartBox = false;
         let i = 0;
-        let currentPlayerCoinsList = this.getCurrentPlayerCoins();
-        let nonStartedCoinsList = this.getPlayerNonStartedCoins(currentPlayerCoinsList);
-        let startedAndNonEndedCoinsList = this.getPlayerStartedAndNonEndedCoins(currentPlayerCoinsList);
+        let currentPlayerCoinsList = getCurrentPlayerCoins(this.coinObjectList, this._playerType);
+        let nonStartedCoinsList = getPlayerNonStartedCoins(this.coinObjectList, this._playerType);
+        let startedAndNonEndedCoinsList = getPlayerStartedAndNonEndedCoins(this.coinObjectList, this._playerType);
 
         isAnyAtStartBox = !nonStartedCoinsList || nonStartedCoinsList.length === 0 ? false : true;
 
@@ -194,13 +202,14 @@ export default class LudoBoard extends LightningElement {
     activateActionListenerToPlayer(componentsList) {
         console.log('in activateActionListenerToPlayer method');
         let startBoxComponent;
-        const playerType = this._playerType;
+        let playerType;
         if(!componentsList || componentsList.length === 0) {
             return;
         }
         for(let key in componentsList) {
             if(componentsList[key].type === START_BOX) {
-                this.template.querySelector(`[data-player-type="$playerType"]`).attachClickEventListener();
+                playerType = componentsList[key].values.playerType;
+                this.template.querySelector(`c-ludo-player-start-box[data-player-type="${playerType}"]`).attachClickEventListener();
             } else if(key === MIDDLE_PATH_BOX) {
 
             }
@@ -218,13 +227,13 @@ export default class LudoBoard extends LightningElement {
     //this method is used to activate click event to all coins for this player to make his move
     getComponentsToActivateListener(numEle) {
         console.log('in getComponentsToActivateListener method ');
-        let currentPlayerCoinsList = this.getCurrentPlayerCoins();
-        let nonStartedCoinsList = this.getPlayerNonStartedCoins(currentPlayerCoinsList);
-        let startedAndNonEndedCoinsList = this.getPlayerStartedAndNonEndedCoins(currentPlayerCoinsList);
+        let currentPlayerCoinsList = getCurrentPlayerCoins(this.coinObjectList, this._playerType);
+        let nonStartedCoinsList = getPlayerNonStartedCoins(this.coinObjectList, this._playerType);
+        let startedAndNonEndedCoinsList = getPlayerStartedAndNonEndedCoins(this.coinObjectList, this._playerType);
         let componentsToActivate = [];
         let pathComponentsToActivate = [];
         if(numEle === 1 && nonStartedCoinsList && nonStartedCoinsList.length > 0) {
-            componentsToActivate.push({type: START_BOX, values: this.currentPlayerTurn});
+            componentsToActivate.push({type: START_BOX, values: {playerType: this._playerType}});
         }
         pathComponentsToActivate = this.getPathComponentsFromValue(startedAndNonEndedCoinsList);
         if(pathComponentsToActivate && pathComponentsToActivate.length > 0) {
@@ -407,36 +416,8 @@ export default class LudoBoard extends LightningElement {
     }
 
 
-    getCurrentPlayerCoins() {
-        console.log(' in getCurrentPlayerCoins method ');
-        let thisPlayerType = this._playerType;
-        if(!this.coinObjectList || this.coinObjectList.length == 0 || !thisPlayerType) {
-            return null;
-        }
-        let currentPlayerCoinsList = this.coinObjectList.filter(function(indCoin) {
-                                        return indCoin.playerType === thisPlayerType;
-                                    });
-        return currentPlayerCoinsList;
-    }
-
-    getPlayerNonStartedCoins(currentPlayerCoinsList) {
-        console.log(' in getPlayerNonStartedCoins method');
-        let nonStartedCoinsList = currentPlayerCoinsList.filter(function(indCoin) {
-            return indCoin.isStart === false;
-        });
-        return nonStartedCoinsList;
-    }
-
-    getPlayerStartedAndNonEndedCoins(currentPlayerCoinsList) {
-        console.log(' in getPlayerStartedAndNonEndedCoins method');
-        let startedNonEndedCoinsList = currentPlayerCoinsList.filter(function(indCoin) {
-            return indCoin.isEnd === false && indCoin.isStart === true;
-        });
-        return startedNonEndedCoinsList;
-    }
-
     //Below are only for testing
-    testPlayerValues(event) {
+    testChangePlayerValues(event) {
         console.log('in testPlayerValues method ');
         //fill for player1 verticalBottomArray fully, else it creates issue
         this.verticalBottomArray = [];
@@ -456,10 +437,11 @@ export default class LudoBoard extends LightningElement {
     }
 
     testEventHandler(event) {
+        this.testChangePlayerValues();
         console.log(' in testEventHandler method ... current test player perspective is '+this.testPlayerChange);
         let data = JSON.parse(event.detail);
         let numbVal;
-        event.stopPropagtion();
+        //event.stopPropagtion();
         if(!data) {
             return;
         }
@@ -469,17 +451,6 @@ export default class LudoBoard extends LightningElement {
         let output = convertPositionToPlayer1Perspective(numbVal, this.testPlayerChange,
              this.getPlayerHomeBoxArray(this.testPlayerChange));
         console.log('output is '+ output);
-    }
-
-    testChangeTestPlayer() {
-        console.log('in testChangeTestPlayer method ');
-        if(this.testPlayerChange === 'player2') {
-            this.testPlayerChange = 'player3';
-        } else if(this.testPlayerChange === 'player3') {
-            this.testPlayerChange = 'player4';
-        } else if(this.testPlayerChange === 'player4') {
-            this.testPlayerChange = 'player2';
-        } 
     }
 
 }
