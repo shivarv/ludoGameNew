@@ -6,7 +6,8 @@ import {
     COINOBJECTLIST
 } from 'c/ludoUtilityConstant';
 import {
-    getCurrentPlayerCoins, getPlayerNonStartedCoins, getPlayerStartedAndNonEndedCoins
+    getCurrentPlayerCoins, getPlayerNonStartedCoins, getPlayerStartedAndNonEndedCoins,
+    getAllPlayersStartedAndNonEndedCoins
 } from 'c/ludoUtilityLogics';
 
 import {
@@ -47,12 +48,16 @@ export default class LudoBoard extends LightningElement {
     horizontalLeftPathType = 'horizontal-left';
     horizontalRightPathType = 'horizontal-right';
 
+    @track
+    boardPathDetails;
+
+
     verticalTopArray;
     verticalBottomArray;
     horizontalLeftArray;
     horizontalRightArray;
 
-    boardCoinPositionList = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
+    //boardCoinPositionList; = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
 
 
     @api
@@ -64,6 +69,23 @@ export default class LudoBoard extends LightningElement {
         this._playerType = value;
         this.assignPlayerUniqueValue();
         this.assignPathDataArrayValues();
+
+        this.boardPathDetails = {
+            'verticalTopArray': this.verticalTopArray,
+            'verticalBottomArray': this.verticalBottomArray,
+            'horizontalLeftArray': this.horizontalLeftArray,
+            'horizontalRightArray': this.horizontalRightArray,
+        };
+    }
+
+    constructor() {
+        super();
+        //this.boardCoinPositionList = [];
+        
+    }
+
+    get verticalTopArrayObj() {
+        console.log(' in verticalTopArrayObj ');
     }
 
     //Layer where the whole game starts

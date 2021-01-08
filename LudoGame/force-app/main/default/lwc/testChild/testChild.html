@@ -1,0 +1,30 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 01-07-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   01-07-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+
+    <div>
+        <template if:true={testValues}>
+            <template for:each={testValues} for:item="item">
+                <div key={item.value} data-key={item.value}>
+                    ?- {item.value} -?
+                    <template if:true={item.coinList}> 
+                        <template for:each={item.coinList} for:item="coinItem">
+                            <div key={coinItem}>
+                                    ---- {coinItem} ---
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+        </template>
+    </div>
+    
+</template>

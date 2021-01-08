@@ -1,7 +1,12 @@
 import { api, LightningElement } from 'lwc';
+import {COIN_START_POSITION_CONST} from 'c/ludoUtilityConstant';
 import {
     fireComponentEventHelper
 } from 'c/ludoUtilityServices';
+import {
+    getAllPlayersStartedAndNonEndedCoins
+} from 'c/ludoUtilityLogics';
+
 const PATH_TYPES = {
                         'vertical-top' : 'vertical-top', 
                         'vertical-bottom' : 'vertical-bottom', 
@@ -30,6 +35,7 @@ export default class LudoVerticalPath extends LightningElement {
         this._boardCoinPositionList = value;
     }
 
+    //this arrayData must be moved to board
     @api
     get arrayData() {
         console.log('in get arrayData method');
@@ -39,26 +45,13 @@ export default class LudoVerticalPath extends LightningElement {
     set arrayData(value) {
         console.log('in set arrayData method '+JSON.stringify(value));
         console.log(this._pathType + ' '+ JSON.stringify(this._boardCoinPositionList));
-        this.index++;
-        if(this.index === 6) {
-            console.log('index error more than 6');
-            console.log('boardlist is '+JSON.stringify(this._boardCoinPositionList));
-            console.log('pathType '+ this._pathType);
-            console.log(' this._arrayData '+ JSON.stringify(this._arrayData));
-        }
-        if(!this._boardCoinPositionList) {
-            this.arrayData = value;
-            return;
-        }
-        if(this.pathType === 'vertical-bottom') {
-            this._arrayData = this.convertArrayWithPostion(value);
-        } else {
-            this._arrayData = this.sampleTestArrayWithPostion(value);
-        }
+        //{name: 'coin1', position: COIN_START_POSITION_CONST, isEnd: false, 
+        //isStart: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin1-' + PLAYERNAMEMAP.player1)},
+        this._arrayData = this.convertArrayWithPostion(value);
     }
 
-    sampleTestArrayWithPostion(arr) {
-        console.log('in sampleTestArrayWithPostion method');
+    generateCoinFillerResult(arr) {
+        console.log('in generateCoinFillerResult method');
         let finalArrayData = [];
         for(let i in arr) {
             finalArrayData.push({value: arr[i], coinList: []});
@@ -68,26 +61,30 @@ export default class LudoVerticalPath extends LightningElement {
 
     convertArrayWithPostion(arr) {
         console.log('in convertArrayWithPostion method');
-        let finalArrayData = [];
-        let thisBoardCoinPositionList = this.boardCoinPositionList;
+        let arrayObjData = this.generateCoinFillerResult(arr);
+        let onlyStartedCoins = getAllPlayersStartedAndNonEndedCoins(this.boardCoinPositionList);
         console.log('arr value is '+JSON.stringify(arr));
-        console.log('thisBoardCoinPositionList value is '+JSON.stringify(thisBoardCoinPositionList));
-        for(let i in arr) {
-            finalArrayData.push({value: arr[i], coinList: []});
+        console.log('this.boardCoinPositionList value is '+JSON.stringify(this.boardCoinPositionList));
+        if(!onlyStartedCoins || onlyStartedCoins.length === 0) {
+            return arrayObjData;
         }
-
         // boardCoinPositionList = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
-        for(let j in thisBoardCoinPositionList) {
-            let foundValue = arr.find((ele) => {
-                    return  ele.value === thisBoardCoinPositionList[j].pos;
+
+        //loop through arrayObjData
+        // get all the coins matched this position
+        // add them as array to coinList attribute of arrayObjData at the loopedIndex 
+        for(let loopIndex in arrayObjData) {
+            let matchedCoins = onlyStartedCoins.filter((coinItem) => {
+                    return  coinItem.position === arrayObjData[loopIndex].value;
                 });
-            if(foundValue) {
-                for(let indCoinId in thisBoardCoinPositionList[j].coinIds) {
-                    foundValue.coinList.push(thisBoardCoinPositionList[j].coinIds[indCoinId]);
+            //if matchedCoins filter is not empty, use this 
+            if(matchedCoins.length > 0) {
+                for(let indCoin of matchedCoins) {
+                    arrayObjData[loopIndex].coinList.push(indCoin.coinList);
                 }
             }
         }
-        return finalArrayData;
+        return arrayObjData;
     }
 
     @api

@@ -30,7 +30,7 @@
                     component-player-type={player2}></c-ludo-player-start-box>
             </div>
             <div class="middle-vertical-box">
-                <c-ludo-vertical-path  board-coin-position-list={boardCoinPositionList} path-type={verticalTopPathType}
+                <c-ludo-vertical-path  board-coin-position-list={coinObjectList} path-type={verticalTopPathType}
                 array-data={verticalTopArray} data-path-type={verticalTopPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
@@ -43,7 +43,7 @@
 
         <div class="middle-row-container">
             <div class="start-box-parent">
-                <c-ludo-vertical-path board-coin-position-list={boardCoinPositionList} path-type={horizontalLeftPathType} 
+                <c-ludo-vertical-path board-coin-position-list={coinObjectList} path-type={horizontalLeftPathType} 
                 array-data={horizontalLeftArray} data-path-type={horizontalLeftPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
@@ -51,7 +51,7 @@
                 <c-ludo-player-end-box></c-ludo-player-end-box>
             </div>
             <div class="start-box-parent">
-                <c-ludo-vertical-path board-coin-position-list={boardCoinPositionList} path-type={horizontalRightPathType} 
+                <c-ludo-vertical-path board-coin-position-list={coinObjectList} path-type={horizontalRightPathType} 
                 array-data={horizontalRightArray} data-path-type={horizontalRightPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
@@ -64,7 +64,7 @@
                     component-player-type={player1}></c-ludo-player-start-box>
             </div>
             <div class="middle-vertical-box">
-                <c-ludo-vertical-path board-coin-position-list={boardCoinPositionList} path-type={verticalBottomPathType} array-data={verticalBottomArray}
+                <c-ludo-vertical-path board-coin-position-list={coinObjectList} path-type={verticalBottomPathType} array-data={verticalBottomArray}
                 data-path-type={verticalBottomPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>

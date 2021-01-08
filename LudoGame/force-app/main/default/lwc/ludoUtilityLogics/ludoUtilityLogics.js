@@ -31,6 +31,18 @@ const getPlayerStartedAndNonEndedCoins = (coinObjectList, playerType) => {
     return startedNonEndedCoinsList;
 }
 
+const getAllPlayersStartedAndNonEndedCoins = (coinObjectList) => {
+    console.log(' in getPlayerStartedAndNonEndedCoins method');
+    if(!coinObjectList || coinObjectList.length == 0) {
+        return null;
+    }
+    let startedNonEndedCoinsList = coinObjectList.filter(function(indCoin) {
+        return indCoin.isEnd === false && indCoin.isStart === true;
+    });
+    return startedNonEndedCoinsList;
+}
+
 export {
-    getCurrentPlayerCoins, getPlayerNonStartedCoins, getPlayerStartedAndNonEndedCoins
+    getCurrentPlayerCoins, getPlayerNonStartedCoins, getPlayerStartedAndNonEndedCoins,
+    getAllPlayersStartedAndNonEndedCoins
 };
