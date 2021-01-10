@@ -21,19 +21,7 @@ export default class LudoVerticalPath extends LightningElement {
     mainDivClasses;
     _color;
 
-    _boardCoinPositionList;
     _arrayData = [];
-
-    @api
-    get boardCoinPositionList() {
-        console.log('in get boardCoinPositionList method ');
-        return this._boardCoinPositionList;
-    }
-
-    set boardCoinPositionList(value) {
-        console.log('in set boardCoinPositionList method '+ JSON.stringify(value));
-        this._boardCoinPositionList = value;
-    }
 
     //this arrayData must be moved to board
     @api
@@ -44,12 +32,13 @@ export default class LudoVerticalPath extends LightningElement {
 
     set arrayData(value) {
         console.log('in set arrayData method '+JSON.stringify(value));
-        console.log(this._pathType + ' '+ JSON.stringify(this._boardCoinPositionList));
+        //console.log(this._pathType + ' '+ JSON.stringify(this._boardCoinPositionList));
         //{name: 'coin1', position: COIN_START_POSITION_CONST, isEnd: false, 
         //isStart: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin1-' + PLAYERNAMEMAP.player1)},
-        this._arrayData = this.convertArrayWithPostion(value);
+        this._arrayData = value;
     }
 
+    /*
     generateCoinFillerResult(arr) {
         console.log('in generateCoinFillerResult method');
         let finalArrayData = [];
@@ -85,7 +74,7 @@ export default class LudoVerticalPath extends LightningElement {
             }
         }
         return arrayObjData;
-    }
+    }   */
 
     @api
     get pathType() {

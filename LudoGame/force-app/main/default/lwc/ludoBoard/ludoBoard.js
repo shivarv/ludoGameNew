@@ -16,6 +16,8 @@ import {
 } from 'c/ludoUtilityServices';
 import LUDO_RESOURCE from '@salesforce/resourceUrl/ludo';
 
+
+//move the coin position to parent and sent only the boardDetails to Path
 export default class LudoBoard extends LightningElement {
     player1 = PLAYER_TYPES['player1'];
     player2 = PLAYER_TYPES['player2'];
@@ -50,14 +52,19 @@ export default class LudoBoard extends LightningElement {
 
     @track
     boardPathDetails;
-
+    @track
+    verticalTopArrayObject;
+    @track
+    verticalBottomArrayObject;
+    @track
+    horizontalLeftArrayObject;
+    @track
+    horizontalRightArrayObject;
 
     verticalTopArray;
     verticalBottomArray;
     horizontalLeftArray;
     horizontalRightArray;
-
-    //boardCoinPositionList; = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
 
 
     @api
@@ -69,13 +76,8 @@ export default class LudoBoard extends LightningElement {
         this._playerType = value;
         this.assignPlayerUniqueValue();
         this.assignPathDataArrayValues();
-
-        this.boardPathDetails = {
-            'verticalTopArray': this.verticalTopArray,
-            'verticalBottomArray': this.verticalBottomArray,
-            'horizontalLeftArray': this.horizontalLeftArray,
-            'horizontalRightArray': this.horizontalRightArray,
-        };
+        this.setupBoardPathDetails();
+        
     }
 
     constructor() {
@@ -194,6 +196,15 @@ export default class LudoBoard extends LightningElement {
         }
     }
 
+    
+    handlePlayerJoinEvent(data) {
+        console.log(' in handlePlayerJoinEvent method ');
+    }
+
+    handleCoinClickedEvent(data) {
+        console.log(' in handleCoinClickedEvent method ');
+    }
+
     isMovePresentForPlayer(diceMoveVal) {
         console.log(' in isMovePresentForPlayer method '+diceMoveVal);
         let isMoveAllowed = false;
@@ -269,6 +280,8 @@ export default class LudoBoard extends LightningElement {
 
     getPathComponentsFromValue(startedAndNonEndedCoinsList) {
         console.log('in getPathComponentsFromValue method')
+        return [];
+        /*
         let pathComponentsToActivate = [];
         if(!startedAndNonEndedCoinsList || startedAndNonEndedCoinsList.length === 0) {
             return pathComponentsToActivate;
@@ -306,21 +319,54 @@ export default class LudoBoard extends LightningElement {
                 pathComponentsToActivate.push({data: eleDataVal, pathType: this.horizontalRightPathType});
             }
         }
-        return pathComponentsToActivate;
+        return pathComponentsToActivate; */
     }
 
 
-    handlePlayerJoinEvent(data) {
-        console.log(' in handlePlayerJoinEvent method ');
-    }
-
-    handleCoinClickedEvent(data) {
-        console.log(' in handleCoinClickedEvent method ');
+    setupBoardPathDetails() {
+        console.log(' in setupBoardPathDetails method ');
+        
     }
 
     assignPlayerUniqueValue() {
         console.log('in assignPlayerUniqueValue method ');
         this._playerUniqueValue = PLAYER_CALC_UNIQUE_VALUE[this._playerType];
+    }
+
+    generateCoinFillerResult(arr) {
+        console.log('in generateCoinFillerResult method');
+        let finalArrayData = [];
+        for(let i in arr) {
+            finalArrayData.push({value: arr[i], coinList: []});
+        }
+        return finalArrayData;
+    }
+
+    convertArrayWithPostion(arr) {
+        console.log('in convertArrayWithPostion method');
+        let arrayObjData = this.generateCoinFillerResult(arr);
+        let onlyStartedCoins = getAllPlayersStartedAndNonEndedCoins(this.coinObjectList);
+        console.log('arr value is '+JSON.stringify(arr));
+        console.log('coinObjectList value is '+JSON.stringify(this.coinObjectList));
+        if(!onlyStartedCoins || onlyStartedCoins.length === 0) {
+            return arrayObjData;
+        }
+        // boardCoinPositionList = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
+        //loop through arrayObjData
+        // get all the coins matched this position
+        // add them as array to coinList attribute of arrayObjData at the loopedIndex 
+        for(let loopIndex in arrayObjData) {
+            let matchedCoins = onlyStartedCoins.filter((coinItem) => {
+                    return  coinItem.position === arrayObjData[loopIndex].value;
+                });
+            //if matchedCoins filter is not empty, use this 
+            if(matchedCoins.length > 0) {
+                for(let indCoin of matchedCoins) {
+                    arrayObjData[loopIndex].coinList.push(indCoin.coinList);
+                }
+            }
+        }
+        return arrayObjData;
     }
 
     assignPathDataArrayValues() {
@@ -329,58 +375,85 @@ export default class LudoBoard extends LightningElement {
         //player 2 is red
         //player 3 is green
         //player 4 is yellow
-        this.configureDefaultArrayValues();
-        this.subtractUniqueValueFromArray();
-        this.equaliseWrongValuesForArray();
-        this.assignHomeValuesForArray();
-        this.fillZeroByNegativeNumbers();
+        let verticalTopArray = [];
+        let verticalBottomArray = [];
+        let horizontalLeftArray = [];
+        let horizontalRightArray = [];
+        this.configureDefaultArrayValues(verticalTopArray, verticalBottomArray,
+                                        horizontalLeftArray, horizontalRightArray);
+        this.subtractUniqueValueFromArray(verticalTopArray, verticalBottomArray,
+                                        horizontalLeftArray, horizontalRightArray);
+        this.equaliseWrongValuesForArray(verticalTopArray, verticalBottomArray,
+                                        horizontalLeftArray, horizontalRightArray);
+        this.assignHomeValuesForArray(verticalTopArray, verticalBottomArray,
+                                        horizontalLeftArray, horizontalRightArray);
+        this.fillZeroByNegativeNumbers(verticalTopArray, verticalBottomArray,
+                                        horizontalLeftArray, horizontalRightArray);
 
-        console.log('player 1 ' + this.verticalBottomArray);
-        console.log('player 2 ' + this.horizontalLeftArray);
-        console.log('player 3 ' + this.verticalTopArray);
-        console.log('player 4 ' + this.horizontalRightArray);
+        console.log('path1 array' + verticalBottomArray);
+        console.log('path2 array' + horizontalLeftArray);
+        console.log('path3 array ' + verticalTopArray);
+        console.log('path4 array ' + horizontalRightArray);
 
+        this.verticalTopArrayObject = this.convertArrayWithPostion(verticalTopArray);
+        this.verticalBottomArrayObject = this.convertArrayWithPostion(verticalBottomArray);
+        this.horizontalLeftArrayObject = this.convertArrayWithPostion(horizontalLeftArray);
+        this.horizontalRightArrayObject = this.convertArrayWithPostion(horizontalRightArray);
+
+        console.log('path1 Object' + JSON.stringify(this.verticalBottomArrayObject));
+        console.log('path2 Object' + JSON.stringify(this.horizontalLeftArrayObject));
+        console.log('path3 Object ' + JSON.stringify(this.verticalTopArrayObject));
+        console.log('path4 Object ' + JSON.stringify(this.horizontalRightArrayObject));
+
+        this.boardPathDetails = {
+            'verticalTopArray': this.verticalTopArrayObject,
+            'verticalBottomArray': this.verticalBottomArrayObject,
+            'horizontalLeftArray': this.horizontalLeftArrayObject,
+            'horizontalRightArray': this.horizontalRightArrayObject
+        };
     }
 
-    getPlayerHomeBoxArray(playerTypeValue) {
-        console.log('in getPlayerHomeBoxArray method');
-        let arr;
-        if(playerTypeValue === PLAYER_TYPES['player1']) {
-            arr = this.verticalBottomArray;
-        } else if(playerTypeValue === PLAYER_TYPES['player2']) {
-            arr = this.horizontalLeftArray;
-        } else if(playerTypeValue === PLAYER_TYPES['player3']) {
-            arr = this.verticalTopArray;
-        } else if(playerTypeValue === PLAYER_TYPES['player4']) {
-            arr = this.horizontalRightArray;
+
+
+
+    
+    configureDefaultArrayValues(verticalTopArray, verticalBottomArray,
+                                horizontalLeftArray, horizontalRightArray) {
+        console.log('in configureDefaultArrayValues method ');
+        //fill for player1 verticalBottomArray or player1 home till 52, else it creates issue on that location
+        //the reason these no's are bit confusing is because in css horizontal block are aligned horizontally,
+        // vertical block are aligned vertically
+        verticalTopArray.push.apply(verticalTopArray, [25, 26, 27, 24, 0, 28, 23, 0, 29, 22, 0, 30, 21, 0, 31, 20, 0, 32]);
+        verticalBottomArray.push.apply(verticalBottomArray, [6, 0, 46, 5, 0, 47, 4, 0, 48, 3, 0, 49, 2, 0, 50, 1, 52, 51]);
+        horizontalLeftArray.push.apply(horizontalLeftArray, [14, 15, 16, 17, 18, 19, 13, 0, 0, 0, 0, 0, 12, 11, 10, 9, 8, 7]);
+        horizontalRightArray.push.apply(horizontalRightArray, [33, 34, 35, 36, 37, 38, 0, 0, 0, 0, 0, 39, 45, 44, 43, 42, 41, 40]);
+    }
+
+    subtractUniqueValueFromArray(verticalTopArray, verticalBottomArray,
+                                horizontalLeftArray, horizontalRightArray) {
+        console.log('in subtractUniqueValueFromArray method');
+        this.individualArraySubtractionHelper(verticalTopArray);
+        this.individualArraySubtractionHelper(verticalBottomArray);
+        this.individualArraySubtractionHelper(horizontalLeftArray);
+        this.individualArraySubtractionHelper(horizontalRightArray);
+    }
+
+    individualArraySubtractionHelper(array) {
+        console.log(' in individualArraySubtractionHelper method');
+        for(let index in array) {
+            if(array[index] !== 0) {
+                array[index] = array[index] - this._playerUniqueValue;
+            }
         }
-        return arr;
-    }
+    }   
 
-    // this will only set the home run for the current player
-    assignHomeValuesForArray() {
-        console.log('in assignHomeValuesForArray method');
-        // get the actual home box array
-        let arr = this.getPlayerHomeBoxArray(this._playerType);
-        let initialVal = 0;
-        //this gives the array indexes of home number
-        let homeArrayIndexes = PLAYER_HOME_ARRAY_INDEXES[this._playerType];
-        console.log(arr);
-        console.log(homeArrayIndexes);
-        //basically loop through the home box for the home indexes and assign equaliser values
-        for(let index of homeArrayIndexes) {
-            arr[index] = CALC_EQUALIZER_UNIQUE_VALUE + initialVal;
-            initialVal++;
-        }
-          
-    }
-
-    equaliseWrongValuesForArray() {
+    equaliseWrongValuesForArray(verticalTopArray, verticalBottomArray,
+                                horizontalLeftArray, horizontalRightArray) {
         console.log('in equaliseWrongValuesForArray method');
-        this.individualEqualiseWrongValueHelper(this.verticalBottomArray);
-        this.individualEqualiseWrongValueHelper(this.verticalTopArray);
-        this.individualEqualiseWrongValueHelper(this.horizontalLeftArray);
-        this.individualEqualiseWrongValueHelper(this.horizontalRightArray);
+        this.individualEqualiseWrongValueHelper(verticalTopArray);
+        this.individualEqualiseWrongValueHelper(verticalBottomArray);
+        this.individualEqualiseWrongValueHelper(horizontalLeftArray);
+        this.individualEqualiseWrongValueHelper(horizontalRightArray);
     }
 
     individualEqualiseWrongValueHelper(array) {
@@ -391,43 +464,54 @@ export default class LudoBoard extends LightningElement {
                 array[index] = array[index] + CALC_EQUALIZER_UNIQUE_VALUE;
             }
         }
-    }
+    } 
+
     
-    subtractUniqueValueFromArray() {
-        console.log('in subtractUniqueValueFromArray method');
-        this.individualArraySubtractionHelper(this.verticalBottomArray);
-        this.individualArraySubtractionHelper(this.verticalTopArray);
-        this.individualArraySubtractionHelper(this.horizontalLeftArray);
-        this.individualArraySubtractionHelper(this.horizontalRightArray);
+    // this will only set the home run for the current player
+    assignHomeValuesForArray(verticalTopArray, verticalBottomArray,
+                            horizontalLeftArray, horizontalRightArray) {
+        console.log('in assignHomeValuesForArray method');
+        // get the actual home box array
+        let arr = this.getPlayerHomeBoxArrayHelper(verticalTopArray, verticalBottomArray,
+                                                horizontalLeftArray, horizontalRightArray,
+                                                this._playerType);
+        let initialVal = 0;
+        //this gives the array indexes of home number
+        let homeArrayIndexes = PLAYER_HOME_ARRAY_INDEXES[this._playerType];
+        console.log(arr);
+        console.log(homeArrayIndexes);
+        //basically loop through the home box for the home indexes and assign equaliser values
+        for(let index of homeArrayIndexes) {
+            arr[index] = CALC_EQUALIZER_UNIQUE_VALUE + initialVal;
+            initialVal++;
+        }     
     }
 
-    individualArraySubtractionHelper(array) {
-        console.log(' in individualArraySubtractionHelper method');
-        for(let index in array) {
-            if(array[index] !== 0) {
-                array[index] = array[index] - this._playerUniqueValue;
-            }
+    getPlayerHomeBoxArrayHelper(verticalTopArray, verticalBottomArray,
+                                horizontalLeftArray, horizontalRightArray, playerTypeValue) {
+        console.log('in getPlayerHomeBoxArrayHelper method');
+        let arr;
+        if(playerTypeValue === PLAYER_TYPES['player1']) {
+            arr = verticalBottomArray;
+        } else if(playerTypeValue === PLAYER_TYPES['player2']) {
+            arr = horizontalLeftArray;
+        } else if(playerTypeValue === PLAYER_TYPES['player3']) {
+            arr = verticalTopArray;
+        } else if(playerTypeValue === PLAYER_TYPES['player4']) {
+            arr = horizontalRightArray;
         }
+        return arr;
     }
-
-    configureDefaultArrayValues() {
-        console.log('in configureDefaultArrayValues method ');
-        //fill for player1 verticalBottomArray or player1 home till 52, else it creates issue on that location
-        this.verticalBottomArray = [6, 0, 46, 5, 0, 47, 4, 0, 48, 3, 0, 49, 2, 0, 50, 1, 52, 51];
-        this.verticalTopArray = [25, 26, 27, 24, 0, 28, 23, 0, 29, 22, 0, 30, 21, 0, 31, 20, 0, 32];
-        this.horizontalLeftArray = [14, 15, 16, 17, 18, 19, 13, 0, 0, 0, 0, 0, 12, 11, 10, 9, 8, 7];
-        this.horizontalRightArray = [33, 34, 35, 36, 37, 38, 0, 0, 0, 0, 0, 39, 45, 44, 43, 42, 41, 40];
-    }
-
 
     // this is needed because key needs to be unique
-    fillZeroByNegativeNumbers() {
+    fillZeroByNegativeNumbers(verticalTopArray, verticalBottomArray,
+                            horizontalLeftArray, horizontalRightArray) {
         let initNumberObj = {value: -100};
         console.log('in fillZeroByNegativeNumbers method');
-        this.individualArrayFill(this.verticalBottomArray, initNumberObj);
-        this.individualArrayFill(this.verticalTopArray, initNumberObj);
-        this.individualArrayFill(this.horizontalLeftArray, initNumberObj);
-        this.individualArrayFill(this.horizontalRightArray, initNumberObj);
+        this.individualArrayFill(verticalBottomArray, initNumberObj);
+        this.individualArrayFill(verticalTopArray, initNumberObj);
+        this.individualArrayFill(horizontalLeftArray, initNumberObj);
+        this.individualArrayFill(horizontalRightArray, initNumberObj);
     }
 
     individualArrayFill(array, valObj) {
