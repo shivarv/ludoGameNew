@@ -1,4 +1,3 @@
-import { LightningElement } from 'lwc';
 import { LightningElement,api, track } from 'lwc';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import cometdv7 from '@salesforce/resourceUrl/cometdv7';
