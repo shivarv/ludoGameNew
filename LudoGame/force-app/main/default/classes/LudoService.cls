@@ -13,12 +13,38 @@ public with sharing class LudoService {
 
     @AuraEnabled
     public static string getSessionId(){
-        String userId;
+        String sessionId;
         try {
-            userId = userinfo.getSessionId();
+            sessionId =  getSessionFromApex();
+            System.debug('session id from apex '+sessionId);
+           // sessionId = getSessionFromVfPage();
         } catch (Exception e) {
-            userId = '';
+            sessionId = '';
         }
-        return userId;
+        return sessionId;
     }
+    
+    private static String getSessionFromApex() {
+		String sessionId = UserInfo.getOrganizationId().substring(0, 15) + 
+            				UserInfo.getSessionId().substring(15);
+        return sessionId;
+    }
+    
+    
+    private static String getSessionFromVfPage() {
+        String sessionId = '';
+        // Refer to the Page
+        PageReference sessionIdPage = Page.SessionIdVfPage;
+        // Get the content of the VF page
+        String vfContent = sessionIdPage.getContent().toString();
+        // Find the position of Start and End
+        Integer startPosition = vfContent.indexOf('Start') + 'Start'.length(),
+            endPosition = vfContent.indexOf('End');
+        // Get the Session Id
+        sessionId = vfContent.substring(startPosition, endPosition);
+        System.debug('sessionId '+sessionId);
+        // Return Session Id
+        return sessionId;
+    }
+      
 }

@@ -203,6 +203,7 @@ export default class LudoBoard extends LightningElement {
 
     handleCoinClickedEvent(data) {
         console.log(' in handleCoinClickedEvent method ');
+        this.verticalTopArrayObject[0].coinList.push(this.coinObjectList[6].uniqueId);
     }
 
     isMovePresentForPlayer(diceMoveVal) {
