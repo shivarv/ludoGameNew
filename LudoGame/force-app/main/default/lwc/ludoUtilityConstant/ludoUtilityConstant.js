@@ -5,6 +5,11 @@ const MAX_VALUE_FOR_HOME = 58;
 const START_BOX = 'ludoPlayerStartBox';
 const MIDDLE_PATH_BOX = 'ludoVerticalPath';
 
+const VERTICALTOPPATHTYPE = 'vertical-top';
+const VERTICALBOTTOMPATHTYPE = 'vertical-bottom';
+const HORIZONTALLEFTPATHTYPE = 'horizontal-left';
+const HORIZONTALRIGHTPATHTYPE = 'horizontal-right';
+const COIN_UNIQUE_ID_DELIMITER = '-';
 const PLAYERNAMEMAP = {
     'player1': 'player1',
     'player2': 'player2',
@@ -60,35 +65,39 @@ const OTHER_PLAYER_HOME_RUN_FROM_PLAYER1_PERSPECTIVE = {
 
 //for testing, made it as true
 const COINOBJECTLIST = [
-    {name: 'coin1', position: 1, isEnd: false, isStart: true, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin1-' + PLAYERNAMEMAP.player1)},
-    {name: 'coin2', position: 1, isEnd: false, isStart: true, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin2-' + PLAYERNAMEMAP.player1)},
-    {name: 'coin3', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin3-' + PLAYERNAMEMAP.player1)},
-    {name: 'coin4', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin4-' + PLAYERNAMEMAP.player1)},
+    {name: 'coin1', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin1' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player1)},
+    {name: 'coin2', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin2' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player1)},
+    {name: 'coin3', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin3' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player1)},
+    {name: 'coin4', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin4' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player1)},
 
-    {name: 'coin1', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin1-' + PLAYERNAMEMAP.player2)},
-    {name: 'coin2', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin2-' + PLAYERNAMEMAP.player2)},
-    {name: 'coin3', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin3-' + PLAYERNAMEMAP.player2)},
-    {name: 'coin4', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin4-' + PLAYERNAMEMAP.player2)},
+    {name: 'coin1', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin1' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player2)},
+    {name: 'coin2', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin2' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player2)},
+    {name: 'coin3', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin3' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player2)},
+    {name: 'coin4', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player2, uniqueId: ('coin4' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player2)},
 
-    {name: 'coin1', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin1-' + PLAYERNAMEMAP.player3)},
-    {name: 'coin2', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin2-' + PLAYERNAMEMAP.player3)},
-    {name: 'coin3', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin3-' + PLAYERNAMEMAP.player3)},
-    {name: 'coin4', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin4-' + PLAYERNAMEMAP.player3)},
+    {name: 'coin1', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin1' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player3)},
+    {name: 'coin2', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin2' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player3)},
+    {name: 'coin3', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin3' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player3)},
+    {name: 'coin4', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player3, uniqueId: ('coin4' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player3)},
 
-    {name: 'coin1', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin1-' + PLAYERNAMEMAP.player4)},
-    {name: 'coin2', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin2-' + PLAYERNAMEMAP.player4)},
-    {name: 'coin3', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin3-' + PLAYERNAMEMAP.player4)},
-    {name: 'coin4', position: COIN_START_POSITION_CONST, isEnd: false, isStart: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin4-' + PLAYERNAMEMAP.player4)}
+    {name: 'coin1', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin1' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player4)},
+    {name: 'coin2', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin2' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player4)},
+    {name: 'coin3', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin3' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player4)},
+    {name: 'coin4', position: COIN_START_POSITION_CONST, hasEnded: false, hasStarted: false, playerType: PLAYERNAMEMAP.player4, uniqueId: ('coin4' + COIN_UNIQUE_ID_DELIMITER + PLAYERNAMEMAP.player4)}
 ];
 
 
 const CALC_EQUALIZER_UNIQUE_VALUE = 52;
 
 
+
+
 export {
+    COIN_UNIQUE_ID_DELIMITER,
     GENERICCOMPONENTEVENT, EVENTTYPESMAP,
     PLAYER_TYPES, PLAYER_CALC_UNIQUE_VALUE, PLAYER_HOME_ARRAY_INDEXES,
     CALC_EQUALIZER_UNIQUE_VALUE, OTHER_PLAYER_HOME_RUN_FROM_PLAYER1_PERSPECTIVE,
     HOME_NUMBER_CONST, MAX_VALUE_FOR_HOME, START_BOX, MIDDLE_PATH_BOX,
-    COIN_START_POSITION_CONST, COINOBJECTLIST
+    COIN_START_POSITION_CONST, COINOBJECTLIST,
+    VERTICALTOPPATHTYPE, VERTICALBOTTOMPATHTYPE, HORIZONTALLEFTPATHTYPE, HORIZONTALRIGHTPATHTYPE
 };

@@ -33,48 +33,10 @@ export default class LudoVerticalPath extends LightningElement {
     set arrayData(value) {
         console.log('in set arrayData method '+JSON.stringify(value));
         //console.log(this._pathType + ' '+ JSON.stringify(this._boardCoinPositionList));
-        //{name: 'coin1', position: COIN_START_POSITION_CONST, isEnd: false, 
-        //isStart: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin1-' + PLAYERNAMEMAP.player1)},
+        //{name: 'coin1', position: COIN_START_POSITION_CONST, hasEnded: false, 
+        //hasStarted: false, playerType: PLAYERNAMEMAP.player1, uniqueId: ('coin1-' + PLAYERNAMEMAP.player1)},
         this._arrayData = value;
     }
-
-    /*
-    generateCoinFillerResult(arr) {
-        console.log('in generateCoinFillerResult method');
-        let finalArrayData = [];
-        for(let i in arr) {
-            finalArrayData.push({value: arr[i], coinList: []});
-        }
-        return finalArrayData;
-    }
-
-    convertArrayWithPostion(arr) {
-        console.log('in convertArrayWithPostion method');
-        let arrayObjData = this.generateCoinFillerResult(arr);
-        let onlyStartedCoins = getAllPlayersStartedAndNonEndedCoins(this.boardCoinPositionList);
-        console.log('arr value is '+JSON.stringify(arr));
-        console.log('this.boardCoinPositionList value is '+JSON.stringify(this.boardCoinPositionList));
-        if(!onlyStartedCoins || onlyStartedCoins.length === 0) {
-            return arrayObjData;
-        }
-        // boardCoinPositionList = [{pos: 1, coinIds : [COINOBJECTLIST[0].uniqueId], 'perspective': 'player1'}];
-
-        //loop through arrayObjData
-        // get all the coins matched this position
-        // add them as array to coinList attribute of arrayObjData at the loopedIndex 
-        for(let loopIndex in arrayObjData) {
-            let matchedCoins = onlyStartedCoins.filter((coinItem) => {
-                    return  coinItem.position === arrayObjData[loopIndex].value;
-                });
-            //if matchedCoins filter is not empty, use this 
-            if(matchedCoins.length > 0) {
-                for(let indCoin of matchedCoins) {
-                    arrayObjData[loopIndex].coinList.push(indCoin.coinList);
-                }
-            }
-        }
-        return arrayObjData;
-    }   */
 
     @api
     get pathType() {
@@ -131,10 +93,12 @@ export default class LudoVerticalPath extends LightningElement {
         });
     }
 
-    handleClick() {
+    handleClick(event) {
         console.log('in handle click method');
-        
+        //let dataObject;
+        //this.fireComponentEvent();
     }
+
 
     fireComponentEvent(dataObject) {
         console.log('in fireComponentEvent method ');

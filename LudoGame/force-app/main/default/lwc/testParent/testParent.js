@@ -2,7 +2,9 @@ import { LightningElement,api, track } from 'lwc';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import cometd from '@salesforce/resourceUrl/cometd';
 import getSessionId from '@salesforce/apex/LudoService.getSessionId';
-
+import {
+    fireComponentEventHelper
+} from 'c/ludoUtilityServices';
 
 import {
     testMethod1
@@ -96,6 +98,7 @@ export default class TestParent extends LightningElement {
         });
     }
 
+    
 
 
 
@@ -120,9 +123,17 @@ export default class TestParent extends LightningElement {
 
 
 
+    handleTestComponentEvent(event) {
+        console.log('in testEventHandler method ');
+    }
 
 
-
+    fireEvent(event) {
+            console.log('in fireEvent');
+            let inputData = {data: {val: 1},  eventType: 'testevent'};
+            fireComponentEventHelper(JSON.stringify(inputData), this, true, true);
+        
+    }
 
     changeValue(event) {
         this.testValues[0].coinList[2] = this.testValues[0].coinList[2] + 1;

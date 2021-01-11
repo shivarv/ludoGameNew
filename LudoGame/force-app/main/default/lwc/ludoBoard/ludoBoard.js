@@ -3,7 +3,8 @@ import {
     PLAYER_TYPES, PLAYER_CALC_UNIQUE_VALUE, PLAYER_HOME_ARRAY_INDEXES,
     CALC_EQUALIZER_UNIQUE_VALUE, OTHER_PLAYER_HOME_RUN_FROM_PLAYER1_PERSPECTIVE,
     EVENTTYPESMAP, MAX_VALUE_FOR_HOME, START_BOX, MIDDLE_PATH_BOX,
-    COINOBJECTLIST
+    COINOBJECTLIST, 
+    VERTICALTOPPATHTYPE, VERTICALBOTTOMPATHTYPE, HORIZONTALLEFTPATHTYPE, HORIZONTALRIGHTPATHTYPE
 } from 'c/ludoUtilityConstant';
 import {
     getCurrentPlayerCoins, getPlayerNonStartedCoins, getPlayerStartedAndNonEndedCoins,
@@ -12,7 +13,8 @@ import {
 
 import {
     convertPositionFromPlayer1Perspective, convertPositionToPlayer1Perspective,
-    generateRandomNumberHelper, fireComponentEventHelper
+    generateRandomNumberHelper, fireComponentEventHelper,
+    ludoPositionMoveService
 } from 'c/ludoUtilityServices';
 import LUDO_RESOURCE from '@salesforce/resourceUrl/ludo';
 
@@ -43,12 +45,11 @@ export default class LudoBoard extends LightningElement {
     colorGreen = 'green';
     colorBlue = 'blue';
     colorYellow = 'yellow';
-    
-    verticalTopPathType = 'vertical-top';
-    verticalBottomPathType = 'vertical-bottom';
 
-    horizontalLeftPathType = 'horizontal-left';
-    horizontalRightPathType = 'horizontal-right';
+    verticalTopPathType = VERTICALTOPPATHTYPE;
+    verticalBottomPathType = VERTICALBOTTOMPATHTYPE;
+    horizontalLeftPathType = HORIZONTALLEFTPATHTYPE;
+    horizontalRightPathType = HORIZONTALRIGHTPATHTYPE;
 
     @track
     boardPathDetails;
@@ -70,6 +71,7 @@ export default class LudoBoard extends LightningElement {
     @api
     get playerType() {
         console.log('in get playerType method');
+        return this._playerType;
     }
     set playerType(value) {
         console.log('in set playerType method');
@@ -150,6 +152,7 @@ export default class LudoBoard extends LightningElement {
         }
         catch(e) {
             console.log('exception in handler '+ e);
+            console.log(e.stack);
         }
 
     }
@@ -164,6 +167,7 @@ export default class LudoBoard extends LightningElement {
 
     handlePositionChangeEvent(data) {
         console.log(' in handlePositionChangeEvent method ');
+        ludoPositionMoveService(this, data);
     }
 
     handleNoChangeEvent(data) {
@@ -203,7 +207,10 @@ export default class LudoBoard extends LightningElement {
 
     handleCoinClickedEvent(data) {
         console.log(' in handleCoinClickedEvent method ');
-        this.verticalTopArrayObject[0].coinList.push(this.coinObjectList[6].uniqueId);
+        //it means the coin is moved from starting
+        if(data.data.positionFrom === -1) {
+            ludoPositionMoveService( data, this._playerType, this.boardPathDetails, this.coinObjectList);
+        }
     }
 
     isMovePresentForPlayer(diceMoveVal) {

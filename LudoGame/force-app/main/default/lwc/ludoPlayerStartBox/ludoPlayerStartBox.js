@@ -135,7 +135,7 @@ export default class LudoPlayerStartBox extends LightningElement {
         this.canUserClick = false;
         this.decrementCountIndex();
         let coinIdInput = generateCoinUniqueId(this.countPointInBox, this.componentPlayerType);
-        let dataObject = {positionFrom: -1, positionTo: 1,
+        let dataObject = {positionFrom: -1, positionTo: 1, hasStarted: true,
                             coinId: coinIdInput, isHome: false};
         this.fireComponentEvent(dataObject, EVENTTYPESMAP.COINCLICKEDEVENT);
         this.removeClickEventListener();
