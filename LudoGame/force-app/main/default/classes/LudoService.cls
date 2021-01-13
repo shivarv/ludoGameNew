@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 01-09-2021
+ * @last modified on  : 01-13-2021
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log 
  * Ver   Date         Author                               Modification
@@ -29,22 +29,4 @@ public with sharing class LudoService {
             				UserInfo.getSessionId().substring(15);
         return sessionId;
     }
-    
-    
-    private static String getSessionFromVfPage() {
-        String sessionId = '';
-        // Refer to the Page
-        PageReference sessionIdPage = Page.SessionIdVfPage;
-        // Get the content of the VF page
-        String vfContent = sessionIdPage.getContent().toString();
-        // Find the position of Start and End
-        Integer startPosition = vfContent.indexOf('Start') + 'Start'.length(),
-            endPosition = vfContent.indexOf('End');
-        // Get the Session Id
-        sessionId = vfContent.substring(startPosition, endPosition);
-        System.debug('sessionId '+sessionId);
-        // Return Session Id
-        return sessionId;
-    }
-      
 }
