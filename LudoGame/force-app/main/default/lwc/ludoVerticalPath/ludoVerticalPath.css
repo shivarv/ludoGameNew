@@ -87,7 +87,9 @@
 .inner-coin-div {
     position: absolute;
     display: inline-block;
-    background-color: grey;
+    background-color: blue;
+    color: blue;
+
     width: 1rem;
     height: 1rem;
 }

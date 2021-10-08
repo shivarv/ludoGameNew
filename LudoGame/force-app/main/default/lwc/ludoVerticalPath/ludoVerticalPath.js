@@ -1,5 +1,7 @@
 import { api, LightningElement } from 'lwc';
 import {COIN_START_POSITION_CONST} from 'c/ludoUtilityConstant';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+import pointerfontjs from '@salesforce/resourceUrl/pointerfontjs';
 import {
     fireComponentEventHelper
 } from 'c/ludoUtilityServices';
@@ -22,6 +24,8 @@ export default class LudoVerticalPath extends LightningElement {
     _color;
 
     _arrayData = [];
+
+    isRendered = false;
 
     //this arrayData must be moved to board
     @api
@@ -73,7 +77,24 @@ export default class LudoVerticalPath extends LightningElement {
     }
 
     renderedCallback() {
-        console.log('in rendered callback');
+        console.log('in rendered callback ');
+        if (this.isRendered) {
+            return;
+        }
+        this.isRendered = true;
+        this.loadFiles();
+    }
+
+    loadFiles() {
+        console.log('in loadFiles method')
+        Promise.all([
+            loadScript(this, pointerfontjs)
+        ]).then(() => {
+                console.log(' pointerfontjs loaded ');
+            })
+            .catch(error => {
+                console.log(' pointerfontjs error '+ error);
+        });
     }
 
 
@@ -86,7 +107,7 @@ export default class LudoVerticalPath extends LightningElement {
 
     @api
     attachClickEventListener() {
-        console.log(' in attachClickEventListener ');
+        console.log(' in attachClickEventListener method');
         this.canUserClick = true;
         this.template.querySelectorall(`[data-group="${this.divGroupName}"]`).forEach(element => {
             element.addEventListener('click', this.handleClick); //Contains HTML elements

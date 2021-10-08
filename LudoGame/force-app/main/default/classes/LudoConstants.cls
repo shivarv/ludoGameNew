@@ -1,12 +1,12 @@
 /**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 01-13-2021
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
- * Modifications Log 
- * Ver   Date         Author                               Modification
- * 1.0   01-13-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+* @description       : 
+* @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+* @group             : 
+* @last modified on  : 01-16-2021
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* Modifications Log 
+* Ver   Date         Author                               Modification
+* 1.0   01-13-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
 **/
 public with sharing class LudoConstants {
     public static final String PLAYERNAMETEXT = 'playerName';
@@ -28,23 +28,23 @@ public with sharing class LudoConstants {
         'positionFrom':, // -1 is the startPoint Position
         'positionTo':,
         'coinId':, // the coin that is moved now
-		'isHome':  // means if the coin is safe
+        'isHome':  // means if the coin is safe
     }
-	*/
+    */
     /* NOCHANGEEVENT, GAMESTARTEVENT, GAMEOVEREVENT, GAMESYNCEVENT
     {
-       // empty data
+        // empty data
     }
     */
     
     /* PLAYERJOINEVENT
-        {
-            'playerName':
-            'playerType' :,
-            'playerBoardId':,
-            'playerJoinedNo':,
-            'playerMaxCount':
-        }
+    {
+        'playerName':
+        'playerType' :,
+        'playerBoardId':,
+        'playerJoinedNo':,
+        'playerMaxCount':
+    }
     */
-   
+    
 }

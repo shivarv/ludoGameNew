@@ -564,10 +564,7 @@ export default class LudoBoard extends LightningElement {
         }
         console.log('data is '+ data.data);
         numbVal = parseInt(data.data);
-        console.log('  '+ this.getPlayerHomeBoxArray(this.testPlayerChange));
-        let output = convertPositionToPlayer1Perspective(numbVal, this.testPlayerChange,
-             this.getPlayerHomeBoxArray(this.testPlayerChange));
-        console.log('output is '+ output);
+        
     }
 
 }
