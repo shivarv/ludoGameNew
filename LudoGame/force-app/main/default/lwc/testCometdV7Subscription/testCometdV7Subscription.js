@@ -9,6 +9,7 @@ import {
 } from 'c/testUtils';
 
 export default class TestCometdV7Subscription extends LightningElement {
+    versionNum = 48;
     @track
     testValues;
     cometdInitialised = false;
@@ -49,17 +50,17 @@ export default class TestCometdV7Subscription extends LightningElement {
     handlePlatformInitSetup() {
         console.log(' handlePlatformInitSetup method');
         this.cometdRef = new org.cometd.CometD();
-        getSessionId().then(sessionId => {
-            console.log('sessionId' + sessionId);
-            const cometdUrl = window.location.protocol+'//'+window.location.hostname+'/cometd';
-            
+        getSessionId().then(sessionIds => {
+            console.log('sessionId' + sessionIds);
+            const cometdUrl = window.location.protocol+'//'+window.location.hostname+'/cometd/'+ this.versionNum+ '.0/';
+            this.versionNum++;
             this.cometdRef.configure({
                 url: cometdUrl,
-                logLevel: 'debug',
-                requestHeaders: { Authorization: 'OAuth '+ sessionId},
+               // logLevel: 'debug',
+                requestHeaders: { Authorization: 'OAuth '+ sessionIds[1]},
                 appendMessageTypeToURL : false
             });
-            //this.cometdRef.websocketEnabled = false;
+           // this.cometdRef.websocketEnabled = false;
             
             // Establish CometD connection
             console.log('Connecting to CometD: '+ cometdUrl);
@@ -90,8 +91,8 @@ export default class TestCometdV7Subscription extends LightningElement {
         // Prevent duplicate subscriptions
         const channel = '/event/'+ eventName;
         // Subscribe to event
-        this.cometdRef.subscribe(channel, (platformEvent) => {
-            console.log(JSON.stringify(platformEvent));
+        this.cometdRef.subscribe(channel, (eventName) => {
+            console.log(JSON.stringify(eventName));
         }, (subscribeReply) => {
             console.log(subscribeReply.successful ? 'Subscribed to' : 'Failed to subscribe to', eventName);
         });
