@@ -78,16 +78,16 @@ export default class LudoBoard extends LightningElement {
     set playerType(value) {
         console.log('in set playerType method');
         this._playerType = value;
+
+        // i need to revaluate the logics for these methods and come up with something better
         this.assignPlayerUniqueValue();
         this.assignPathDataArrayValues();
         this.setupBoardPathDetails();
-        
     }
 
     constructor() {
         super();
         //this.boardCoinPositionList = [];
-        
     }
 
     get verticalTopArrayObj() {
