@@ -18,7 +18,7 @@ import {
 } from 'c/ludoUtilityServices';
 import LUDO_RESOURCE from '@salesforce/resourceUrl/ludo';
 
-
+const IMAGE_PATH = '/ludo/images/';
 //move the coin position to parent and sent only the boardDetails to Path
 export default class LudoBoard extends LightningElement {
     player1 = PLAYER_TYPES['player1'];
@@ -35,11 +35,13 @@ export default class LudoBoard extends LightningElement {
     _playerType;
     _playerUniqueValue;
 
-    ludoImgUrl = LUDO_RESOURCE + '/ludo/images/ludoIcon.png';
-    user1ImgUrl = LUDO_RESOURCE + '/ludo/images/user1.jpg';
-    user2ImgUrl = LUDO_RESOURCE + '/ludo/images/user2.jpg';
-    user3ImgUrl = LUDO_RESOURCE + '/ludo/images/user3.png';
-    user4ImgUrl = LUDO_RESOURCE + '/ludo/images/user4.png';
+    images = {
+        ludoImgUrl : LUDO_RESOURCE +  IMAGE_PATH + 'ludoIcon.png',
+        user1ImgUrl : LUDO_RESOURCE + IMAGE_PATH + 'user1.jpg',
+        user2ImgUrl : LUDO_RESOURCE + IMAGE_PATH + 'user2.jpg',
+        user3ImgUrl : LUDO_RESOURCE + IMAGE_PATH + 'user3.png',
+        user4ImgUrl : LUDO_RESOURCE + IMAGE_PATH + 'user4.png'
+    };
 
     colorRed = 'red';
     colorGreen = 'green';
