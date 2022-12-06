@@ -47,7 +47,6 @@ export default class LudoHeaderInfo extends LightningElement {
     testChangePerspective(event) {
         console.log('in testchange perspective method ');
         this.fireComponentEvent(1, 'testPerspective');
-
     }
 
 }

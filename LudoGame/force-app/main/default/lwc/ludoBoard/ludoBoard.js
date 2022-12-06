@@ -219,29 +219,7 @@ export default class LudoBoard extends LightningElement {
         console.log(' in isMovePresentForPlayer method '+diceMoveVal);
         let isMoveAllowed = false;
         let isAnyAtStartBox = false;
-        let i = 0;
-        let currentPlayerCoinsList = getCurrentPlayerCoins(this.coinObjectList, this._playerType);
-        let nonStartedCoinsList = getPlayerNonStartedCoins(this.coinObjectList, this._playerType);
-        let startedAndNonEndedCoinsList = getPlayerStartedAndNonEndedCoins(this.coinObjectList, this._playerType);
-
-        isAnyAtStartBox = !nonStartedCoinsList || nonStartedCoinsList.length === 0 ? false : true;
-
-        if(isAnyAtStartBox && diceMoveVal === 1) {
-            isMoveAllowed = true;
-            return isMoveAllowed;
-        }
-        if(!startedAndNonEndedCoinsList || startedAndNonEndedCoinsList.length === 0) {
-            isMoveAllowed = false;
-            return isMoveAllowed;
-        }
-
-        for(let i in startedAndNonEndedCoinsList) {
-            if(startedAndNonEndedCoinsList[i].position + diceMoveVal <= MAX_VALUE_FOR_HOME) {
-                isMoveAllowed = true;
-                break;
-            }
-            
-        }
+        
         return isMoveAllowed;
     }
 
@@ -273,19 +251,7 @@ export default class LudoBoard extends LightningElement {
     //this method is used to activate click event to all coins for this player to make his move
     getComponentsToActivateListener(numEle) {
         console.log('in getComponentsToActivateListener method ');
-        let currentPlayerCoinsList = getCurrentPlayerCoins(this.coinObjectList, this._playerType);
-        let nonStartedCoinsList = getPlayerNonStartedCoins(this.coinObjectList, this._playerType);
-        let startedAndNonEndedCoinsList = getPlayerStartedAndNonEndedCoins(this.coinObjectList, this._playerType);
-        let componentsToActivate = [];
-        let pathComponentsToActivate = [];
-        if(numEle === 1 && nonStartedCoinsList && nonStartedCoinsList.length > 0) {
-            componentsToActivate.push({type: START_BOX, values: {playerType: this._playerType}});
-        }
-        pathComponentsToActivate = this.getPathComponentsFromValue(startedAndNonEndedCoinsList);
-        if(pathComponentsToActivate && pathComponentsToActivate.length > 0) {
-            componentsToActivate.push({type: MIDDLE_PATH_BOX, values: pathComponentsToActivate});
-        }
-        return componentsToActivate;
+        
     }
 
     getPathComponentsFromValue(startedAndNonEndedCoinsList) {
@@ -340,6 +306,7 @@ export default class LudoBoard extends LightningElement {
 
     assignPlayerUniqueValue() {
         console.log('in assignPlayerUniqueValue method ');
+        //this is needed for perspective calculation
         this._playerUniqueValue = PLAYER_CALC_UNIQUE_VALUE[this._playerType];
     }
 
