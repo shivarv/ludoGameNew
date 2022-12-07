@@ -16,6 +16,8 @@ import {
     generateRandomNumberHelper, fireComponentEventHelper,
     ludoPositionMoveService
 } from 'c/ludoUtilityServices';
+
+
 import LUDO_RESOURCE from '@salesforce/resourceUrl/ludo';
 
 const IMAGE_PATH = '/ludo/images/';
@@ -110,6 +112,8 @@ export default class LudoBoard extends LightningElement {
                     this.testEventHandler(event);
                     break;
                 case EVENTTYPESMAP.PLAYERJOINEVENT:
+
+                    //should remove spinner onn and assign spinner off css
                     console.log('Game PLAYEJOINEVENT event type '+data.data);
                     this.handlePlayerJoinEvent(data);
                     break;

@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 01-16-2021
+* @last modified on  : 12-07-2022
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log 
 * Ver   Date         Author                               Modification
@@ -16,11 +16,18 @@ public with sharing class LudoConstants {
     public static final String MAXPLAYERCOUNTTEXT = 'maxPlayerCount';
     public static final String ISLASTPLAYERTEXT = 'isLastPlayer';
     
-    public enum PLAYERTYPE {
+    public enum PLAYER_TYPE {
         PLAYER1,
         PLAYER2,
         PLAYER3,
         PLAYER4
+    }
+
+
+    public enum EVENT_TYPE {
+        RERUNEVENT, POSITIONCHANGEEVENT,
+        NOCHANGEEVENT, GAMESTARTEVENT, GAMEOVEREVENT, GAMESYNCEVENT,
+        PLAYERJOINEVENT
     }
     // Sample EVENT  Values , string value for shivalwc__eventData__c
     /* RERUNEVENT, POSITIONCHANGEEVENT

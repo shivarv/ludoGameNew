@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 12-11-2021
+  @last modified on  : 12-07-2022
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -11,6 +11,7 @@
 <template>
     <div class="container">
         <div class="inner-header">
+           
             <div class="div-sidespace">
                 <c-ludo-header-info user-img-url={images.user1ImgUrl} component-player-type={player3} ludo-img-url={images.ludoImgUrl}  
                             logged-player-type={playerType} current-player-turn={currentPlayerTurn}
@@ -25,6 +26,9 @@
 
         <div class="start-row-container">
             <div class="start-box-parent">
+                <div class="spinner-on">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
                 <c-ludo-player-start-box color={colorRed} oncomponentevent={componentEventHandler}
                     data-player-type={player2}
                     component-player-type={playerType}></c-ludo-player-start-box>
@@ -35,6 +39,9 @@
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
             <div class="start-box-parent">
+                <div class="spinner-on">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
                 <c-ludo-player-start-box color={colorGreen} oncomponentevent={componentEventHandler}
                     data-player-type={player3}
                     component-player-type={playerType}></c-ludo-player-start-box>
@@ -59,6 +66,9 @@
 
         <div class="start-row-container">
             <div class="start-box-parent">
+                <div class="spinner-on">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
                 <c-ludo-player-start-box color={colorBlue} oncomponentevent={componentEventHandler} 
                     data-player-type={player1}
                     component-player-type={playerType}></c-ludo-player-start-box>
@@ -70,6 +80,9 @@
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
             <div class="start-box-parent">
+                <div class="spinner-on">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
                 <c-ludo-player-start-box color={colorYellow} oncomponentevent={componentEventHandler}
                 data-player-type={player4}
                 component-player-type={playerType}></c-ludo-player-start-box>
