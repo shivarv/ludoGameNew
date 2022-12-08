@@ -1,3 +1,28 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-08-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
 <template>
-    
+    <!-- Default/basic -->
+    <div class="slds-p-around_medium lgc-bg">
+        <lightning-input type="text" label="Enter some text"></lightning-input>
+    </div>
+    <div class="container">
+        <div class="div-sidespace red-player">
+        </div>
+        <div class="div-sidespace blue-player">
+        </div>
+        <div class="div-sidespace yellow-player">
+        </div>
+        <div class="div-sidespace green-player">
+        </div>
+    </div>
+    <div class="button-container">
+
+    <lightning-button label="Create Game" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+    <lightning-button label="Join Game" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+    </div>
 </template>

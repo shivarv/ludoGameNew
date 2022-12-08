@@ -1,3 +1,8 @@
 import { LightningElement } from 'lwc';
 
-export default class LudoPlayerSetup extends LightningElement {}
+export default class LudoPlayerSetup extends LightningElement {
+
+    handleClick(event) {
+        
+    }
+}

@@ -1,0 +1,41 @@
+.red-player {
+    content: "";
+    background-color: red;} /* Green */
+.blue-player {
+    content: "";
+
+    background-color: blue;} /* Blue */
+.green-player {        
+    content: "";
+    background-color: green;} /* Red */
+.yellow-player {
+    content: "";
+    background-color: yellow} /* Gray */
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 20%;
+    gap: 2rem;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 3rem;
+    gap: 1rem;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+}
+.div-sidespace {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 0 0 10%;
+    cursor: pointer;
+    box-sizing: border-box;
+}

@@ -12,6 +12,8 @@ import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 export default class LudoGame extends LightningElement {
 
     playerType = 'player1';
+    isSetupStage = true;
+
     connectedCallback() {
         loadStyle(this, HideLightningHeader)
     }
