@@ -1,20 +1,40 @@
 import { LightningElement, api, track } from 'lwc';
+import {
+    COMPONENTEVENTTYPESMAP
+} from 'c/utils';
 
-//this is to remove header
-import HideLightningHeader from '@salesforce/resourceUrl/headerRemove';
-import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
-
-
-//Game Rules
-//Dice with number 1 can open the game
-//Dice with number 6 or 1 can put again
 
 export default class LudoGame extends LightningElement {
+    @track isGameSetupDone = false;
+    playerName;
+    playerType;
+    playerBoardId;
+    playerJoinedNo;
+    playerMaxCount;
+    playersJoinedDataString;
+    isLastPlayer;
 
-    playerType = 'player1';
-    isSetupStage = true;
-
-    connectedCallback() {
-        loadStyle(this, HideLightningHeader)
+    componentEventHandler(event) {
+        console.log('in ludoGame comp component event handler ');
+        let parsedObject = JSON.parse(event.detail);
+        console.log(JSON.stringify(parsedObject));
+        //set boardId here
+        //return if isGameSetupDone is true or if data is empty
+        if(this.isGameSetupDone || !parsedObject || !parsedObject.eventType || parsedObject.eventType !== COMPONENTEVENTTYPESMAP.BOARDSETUPEVENT) {
+            return;
+        }
+        this.playerName = parsedObject.data.playerName;
+        this.playerType = parsedObject.data.playerType;
+        this.playerBoardId = parsedObject.data.playerBoardId;
+        this.playerJoinedNo = parsedObject.data.playerJoinedNo;
+        this.playerMaxCount = parsedObject.data.maxPlayerCount;
+        this.playersJoinedDataString = parsedObject.data.playersJoinedList;
+        this.isLastPlayer = parsedObject.data.isLastPlayer;
+        console.log('players joined data string '+ this.playersJoinedDataString);
+        console.log('in ludoGame method '+ this.playerName + ' '+
+        this.playerType + ' '+ this.playerBoardId + ' '+ this.playerJoinedNo
+        + ' '+ this.playerMaxCount
+        );
+        this.isGameSetupDone = true;
     }
 }

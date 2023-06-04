@@ -1,22 +1,19 @@
-<!--
-  @description       : 
-  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
-  @group             : 
-  @last modified on  : 12-08-2022
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-  Modifications Log 
-  Ver   Date         Author                               Modification
-  1.0   12-31-2020   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
--->
-
 <template>
-    <div class="container">
-        <template if:true={isSetupStage}>
-            
-            <c-ludo-player-setup></c-ludo-player-setup>
-        </template>
-        <template if:false={isSetupStage}>
-            <c-ludo-board player-type={playerType}></c-ludo-board>
-        </template>
-    </div>
+    <template if:false={isGameSetupDone}>
+        <div class="slds-m-around_medium">
+            <c-ludo-game-request oncomponentevent={componentEventHandler}></c-ludo-game-request>
+        </div>
+    </template>
+    <template if:true={isGameSetupDone}>
+        <div class="slds-m-around_medium">
+            <c-ludo-board 
+                player-name={playerName}
+                player-board-id={playerBoardId}
+                player-type={playerType} player-joined-no={playerJoinedNo}
+                player-max-count={playerMaxCount}
+                players-joined-list-data={playersJoinedDataString}
+                is-last-player={isLastPlayer}
+            ></c-ludo-board>
+        </div>
+    </template>
 </template>
