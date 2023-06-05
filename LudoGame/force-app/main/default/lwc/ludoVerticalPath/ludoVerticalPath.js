@@ -1,7 +1,7 @@
 import { api, LightningElement } from 'lwc';
 import {COIN_START_POSITION_CONST} from 'c/ludoUtilityConstant';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
-import pointerfontjs from '@salesforce/resourceUrl/pointerfontjs';
+// import pointerfontjs from '@salesforce/resourceUrl/pointerfontjs';
 import {
     fireComponentEventHelper
 } from 'c/ludoUtilityServices';
@@ -30,7 +30,7 @@ export default class LudoVerticalPath extends LightningElement {
     //this arrayData must be moved to board
     @api
     get arrayData() {
-        console.log('in get arrayData method');
+        console.log(' in get arrayData method');
         return this._arrayData;
     }
 
@@ -87,14 +87,15 @@ export default class LudoVerticalPath extends LightningElement {
 
     loadFiles() {
         console.log('in loadFiles method')
+        /*
         Promise.all([
-            loadScript(this, pointerfontjs)
+           loadScript(this, pointerfontjs)
         ]).then(() => {
                 console.log(' pointerfontjs loaded ');
             })
             .catch(error => {
                 console.log(' pointerfontjs error '+ error);
-        });
+        }); */
     }
 
 

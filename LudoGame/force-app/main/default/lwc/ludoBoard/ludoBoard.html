@@ -25,23 +25,25 @@
         </div>
 
         <div class="start-row-container">
-            <div class="start-box-parent">
+            <div class="start-box-parent extra-outline">
+                <!--
                 <div class="spinner-on">
                     <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                </div>
+                </div> -->
                 <c-ludo-player-start-box color={colorRed} oncomponentevent={componentEventHandler}
                     data-player-type={player2}
                     component-player-type={playerType}></c-ludo-player-start-box>
             </div>
-            <div class="middle-vertical-box">
+            <div class="middle-vertical-box extra-outline">
                 <c-ludo-vertical-path path-type={verticalTopPathType}
                 array-data={verticalTopArrayObject} data-path-type={verticalTopPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
-            <div class="start-box-parent">
+            <div class="start-box-parent extra-outline">
+                <!-- 
                 <div class="spinner-on">
                     <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                </div>
+                </div> -->
                 <c-ludo-player-start-box color={colorGreen} oncomponentevent={componentEventHandler}
                     data-player-type={player3}
                     component-player-type={playerType}></c-ludo-player-start-box>
@@ -49,15 +51,15 @@
         </div>
 
         <div class="middle-row-container">
-            <div class="start-box-parent">
+            <div class="start-box-parent extra-outline">
                 <c-ludo-vertical-path path-type={horizontalLeftPathType} 
                 array-data={horizontalLeftArrayObject} data-path-type={horizontalLeftPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
-            <div class="middle-end-box">
+            <div class="middle-end-box extra-outline">
                 <c-ludo-player-end-box></c-ludo-player-end-box>
             </div>
-            <div class="start-box-parent">
+            <div class="start-box-parent extra-outline">
                 <c-ludo-vertical-path path-type={horizontalRightPathType} 
                 array-data={horizontalRightArrayObject} data-path-type={horizontalRightPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
@@ -65,24 +67,26 @@
         </div>
 
         <div class="start-row-container">
-            <div class="start-box-parent">
+            <div class="start-box-parent extra-outline">
+                 <!-- 
                 <div class="spinner-on">
                     <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                </div>
+                </div> -->
                 <c-ludo-player-start-box color={colorBlue} oncomponentevent={componentEventHandler} 
                     data-player-type={player1}
                     component-player-type={playerType}></c-ludo-player-start-box>
             </div>
-            <div class="middle-vertical-box">
+            <div class="middle-vertical-box extra-outline">
                 <c-ludo-vertical-path path-type={verticalBottomPathType} 
                 array-data={verticalBottomArrayObject}
                 data-path-type={verticalBottomPathType}
                 oncomponentevent={componentEventHandler}></c-ludo-vertical-path>
             </div>
-            <div class="start-box-parent">
+            <div class="start-box-parent extra-outline">
+                  <!-- 
                 <div class="spinner-on">
                     <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                </div>
+                </div> -->
                 <c-ludo-player-start-box color={colorYellow} oncomponentevent={componentEventHandler}
                 data-player-type={player4}
                 component-player-type={playerType}></c-ludo-player-start-box>

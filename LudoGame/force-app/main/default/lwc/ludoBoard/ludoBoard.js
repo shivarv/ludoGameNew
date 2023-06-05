@@ -160,7 +160,6 @@ export default class LudoBoard extends LightningElement {
             console.log('exception in handler '+ e);
             console.log(e.stack);
         }
-
     }
 
     handlePlayerJoinEvent(data) {

@@ -28,22 +28,24 @@ export default class LudoPlayerStartBox extends LightningElement {
     divGroupName = 'circleDiv';
     countPointInBox = 4;
 
+    isTest = true;
+
     @api componentPlayerType;
 
     get canShow4() {
-        return this.countPointInBox > 3;
+        return this.isTest || this.countPointInBox > 3;
     }
 
     get canShow3() {
-        return this.countPointInBox > 2;
+        return  this.isTest ||  this.countPointInBox > 2;
     }
 
     get canShow2() {
-        return this.countPointInBox > 1;
+        return  this.isTest ||  this.countPointInBox > 1;
     }
 
     get canShow1() {
-        return this.countPointInBox > 0;
+        return  this.isTest ||  this.countPointInBox > 0;
     }
 
     

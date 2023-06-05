@@ -90,3 +90,7 @@
 .spinner-off {
    display: none; 
 }
+
+.extra-outline {
+    outline: 1px solid black;
+}

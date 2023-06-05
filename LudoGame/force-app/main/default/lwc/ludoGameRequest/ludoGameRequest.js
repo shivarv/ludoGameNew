@@ -39,6 +39,7 @@ export default class LudoGameRequest extends LightningElement {
         this.chosenRequestType = this.requestOptions[0].value;
         this.canShowCreate = true;
         this.isSpinnerOpen = false;
+        this.playerName = 'test';
     }
 
     handleMaxPlayerCountChange(event) {
@@ -91,8 +92,8 @@ export default class LudoGameRequest extends LightningElement {
         createPlayerMethod({'playerName': this.playerName, 'maxPlayerCount': parseInt(this.maxPlayerCount)})
         .then(result => {
             console.log(' result is '+ JSON.stringify(result));
-            if(result.isError) {
-                alert(' error in create player '+ result.errorMessage);
+            if(!result || result.isError) {
+                alert(' error in create player '+ result?.errorMessage);
                 return;
             }
             mainThis.fireSetupEvent(result.outputData);
